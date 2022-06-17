@@ -1,7 +1,8 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import "./App.css";
+import SavedNotes from "./pages/SavedNotes";
+import "./App.scss";
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
       <Suspense>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/saved" element={<SavedNotes />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

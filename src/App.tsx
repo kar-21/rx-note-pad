@@ -4,7 +4,6 @@ import LandingPage from "./pages/LandingPage";
 import SavedNotes from "./pages/SavedNotes";
 import NavigationHeader from "./templates/NavigationHeader";
 import LoginPage from "./pages/LoginPage";
-import "./App.scss";
 
 const App = () => {
   return (

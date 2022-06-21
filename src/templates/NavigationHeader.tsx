@@ -1,7 +1,9 @@
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
 
 const NavigationHeader = () => {
+  const navigate = useNavigate();
   return (
     <AppBar position="static">
       <Toolbar>
@@ -15,9 +17,11 @@ const NavigationHeader = () => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
+          Note Pad
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={() => navigate("/login")}>
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );

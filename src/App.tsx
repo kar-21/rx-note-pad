@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SavedNotes from "./pages/SavedNotes";
 import NavigationHeader from "./templates/NavigationHeader";
+import LoginPage from "./pages/LoginPage";
 import "./App.scss";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/saved" element={<SavedNotes />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

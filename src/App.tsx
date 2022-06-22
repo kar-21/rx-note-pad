@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import SavedNotes from "./pages/SavedNotes";
 import NavigationHeader from "./templates/NavigationHeader";
 import LoginPage from "./pages/LoginPage";

@@ -4,7 +4,14 @@
   align-items: center;
   justify-content: center;
 
-  .new-notes-button {
+  .button-container {
     margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .button-separator {
+      margin: 0 10px;
+    }
   }
 }

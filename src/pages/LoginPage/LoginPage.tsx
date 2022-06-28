@@ -6,9 +6,8 @@ import { getAPI } from "../../httpClient/httpClient";
 const LoginPage = () => {
   const onGoogleLoginClick = () => {
     if (process.env.REACT_APP_BACKEND_API) {
-      getAPI(process.env.REACT_APP_BACKEND_API).then(({data, status}) => {
-        if(status === 200) {
-          console.log(">>>data", data);
+      getAPI(process.env.REACT_APP_BACKEND_API).then(({ data, status }) => {
+        if (status === 200) {
           window.location.replace(JSON.parse(data).redirectURL);
         }
       });

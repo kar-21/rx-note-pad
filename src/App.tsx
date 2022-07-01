@@ -1,11 +1,13 @@
-import React, { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import SavedNotes from "./pages/SavedNotesPage/SavedNotesPage";
 import NavigationHeader from "./templates/NavigationHeader";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import TokenPage from "./pages/TokenPage/TokenPage";
 
 const App = () => {
+
   return (
     <BrowserRouter>
       <Suspense>
@@ -14,6 +16,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/saved" element={<SavedNotes />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/token/:token" element={<TokenPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

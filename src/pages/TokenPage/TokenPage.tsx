@@ -2,19 +2,24 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Box, CircularProgress } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setUserName } from "../../store/ActionCreators/userDetails.actionCreator";
 
 const Token = () => {
   const navigate = useNavigate();
   const { token } = useParams();
 
+  const dispatch = useDispatch();
+
   const [, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
     if (token) {
+      dispatch(setUserName("Jane Doe"));
       setCookie("token", token, { path: "/" });
       navigate("/saved");
     }
-  }, [navigate, setCookie, token]);
+  }, [dispatch, navigate, setCookie, token]);
 
   return (
     <div className="token-page-container">

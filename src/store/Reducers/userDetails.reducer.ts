@@ -4,6 +4,7 @@ import * as userDetailsAction from "../ActionCreators/userDetails.actionCreator"
 
 const initialState: UserDetails = {
   userName: "",
+  jwtToken: "",
 };
 
 type Action = ActionType<typeof userDetailsAction>;
@@ -17,6 +18,11 @@ export const userDetailsReducer = (
       return {
         ...state,
         userName: action.payload,
+      };
+    case getType(userDetailsAction.setJwtToken):
+      return {
+        ...state,
+        jwtToken: action.payload,
       };
     default:
       return state;

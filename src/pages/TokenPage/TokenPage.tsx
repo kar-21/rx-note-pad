@@ -3,7 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Box, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setUserName } from "../../store/ActionCreators/userDetails.actionCreator";
+import {
+  setJwtToken,
+  setUserName,
+} from "../../store/ActionCreators/userDetails.actionCreator";
 
 const Token = () => {
   const navigate = useNavigate();
@@ -16,6 +19,7 @@ const Token = () => {
   useEffect(() => {
     if (token) {
       dispatch(setUserName("Jane Doe"));
+      dispatch(setJwtToken(token));
       setCookie("token", token, { path: "/" });
       navigate("/saved");
     }

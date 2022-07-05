@@ -1,9 +1,16 @@
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/Reducers";
 
 const NavigationHeader = () => {
   const navigate = useNavigate();
+
+  const { jwtToken } = useSelector(
+    (state: RootState) => state.userDetailsReducer
+  );
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -19,9 +26,13 @@ const NavigationHeader = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Note Pad
         </Typography>
-        <Button color="inherit" onClick={() => navigate("/login")}>
-          Login
-        </Button>
+        {jwtToken ? (
+          <></>
+        ) : (
+          <Button color="inherit" onClick={() => navigate("/login")}>
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

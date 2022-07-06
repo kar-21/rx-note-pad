@@ -5,8 +5,15 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setJwtToken } from "../../store/ActionCreators/userDetails.actionCreator";
+import {
+  setJwtToken,
+  setUserID,
+} from "../../store/ActionCreators/userDetails.actionCreator";
 import { RootState } from "../../store/Reducers";
+import jwt_decode from "jwt-decode";
+import { JwtType } from "../../store/Models/userDetails.interface";
+import { getUserDetails } from "../../store/Actions/userDetails.action";
+import { AnyAction } from "redux";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -20,6 +27,9 @@ const LandingPage = () => {
   useEffect(() => {
     if (cookie) {
       dispatch(setJwtToken(cookie?.token));
+      const decode: JwtType = jwt_decode(cookie?.token);
+      dispatch(setUserID(decode?.userId));
+      dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
     }
   }, [dispatch, cookie]);
 

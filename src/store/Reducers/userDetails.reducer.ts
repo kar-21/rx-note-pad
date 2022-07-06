@@ -5,6 +5,7 @@ import * as userDetailsAction from "../ActionCreators/userDetails.actionCreator"
 const initialState: UserDetails = {
   userName: "",
   jwtToken: "",
+  userId: ""
 };
 
 type Action = ActionType<typeof userDetailsAction>;
@@ -24,6 +25,16 @@ export const userDetailsReducer = (
         ...state,
         jwtToken: action.payload,
       };
+    case getType(userDetailsAction.setUserID):
+      return {
+        ...state,
+        userId: action.payload,
+      };
+      case getType(userDetailsAction.getUserDetailsSuccess):
+        return {
+          ...state,
+          ...action.payload,
+        };
     default:
       return state;
   }

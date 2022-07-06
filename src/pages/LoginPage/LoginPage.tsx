@@ -1,18 +1,17 @@
 import React from "react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { IconButton } from "@mui/material";
-import { getAPI } from "../../httpClient/httpClient";
+import { useDispatch } from "react-redux";
+import { redirectOauth2URI } from "../../store/Actions/userDetails.action";
+import { AnyAction } from "redux";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   const onGoogleLoginClick = () => {
-    if (process.env.REACT_APP_BACKEND_API) {
-      getAPI(process.env.REACT_APP_BACKEND_API).then(({ data, status }) => {
-        if (status === 200) {
-          window.location.replace(JSON.parse(data).redirectURL);
-        }
-      });
-    }
+    dispatch(redirectOauth2URI() as unknown as AnyAction);
   };
+
   return (
     <div className="login-page-container">
       <h1>Login with</h1>

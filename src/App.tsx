@@ -7,6 +7,7 @@ import SavedNotes from "./pages/SavedNotesPage/SavedNotesPage";
 import NavigationHeader from "./templates/NavigationHeader";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import TokenPage from "./pages/TokenPage/TokenPage";
+import NewNotePage from "./pages/NewNotePage/NewNotePage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/saved" element={<SavedNotes />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/new" element={<NewNotePage />} />
             <Route path="/token/:token" element={<TokenPage />} />
           </Routes>
         </Suspense>

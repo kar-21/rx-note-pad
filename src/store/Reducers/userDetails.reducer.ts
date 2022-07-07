@@ -5,7 +5,24 @@ import * as userDetailsAction from "../ActionCreators/userDetails.actionCreator"
 const initialState: UserDetails = {
   userName: "",
   jwtToken: "",
-  userId: ""
+  userId: "",
+  iss: "",
+  azp: "",
+  aud: "",
+  sub: "",
+  email: "",
+  email_verified: "",
+  at_hash: "",
+  name: "",
+  picture: "",
+  given_name: "",
+  family_name: "",
+  locale: "",
+  iat: "",
+  exp: "",
+  alg: "",
+  kid: "",
+  typ: "",
 };
 
 type Action = ActionType<typeof userDetailsAction>;
@@ -30,11 +47,11 @@ export const userDetailsReducer = (
         ...state,
         userId: action.payload,
       };
-      case getType(userDetailsAction.getUserDetailsSuccess):
-        return {
-          ...state,
-          ...action.payload,
-        };
+    case getType(userDetailsAction.getUserDetailsSuccess):
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

@@ -25,8 +25,8 @@ const LandingPage = () => {
   );
 
   useEffect(() => {
-    if (cookie) {
-      dispatch(setJwtToken(cookie?.token));
+    if (cookie?.token) {
+      dispatch(setJwtToken(cookie.token));
       const decode: JwtType = jwt_decode(cookie?.token);
       dispatch(setUserID(decode?.userId));
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);

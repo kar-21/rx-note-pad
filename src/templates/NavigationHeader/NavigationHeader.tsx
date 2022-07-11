@@ -2,7 +2,7 @@ import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/Reducers";
+import { RootState } from "../../store/Reducers";
 
 const NavigationHeader = () => {
   const navigate = useNavigate();

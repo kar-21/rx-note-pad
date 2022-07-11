@@ -40,7 +40,7 @@ const LandingPage = () => {
       <div className="button-container">
         <Button
           variant="contained"
-          onClick={() => navigate("/new")}
+          onClick={() => navigate("/saved")}
           startIcon={<NoteAddIcon />}
         >
           New Notes

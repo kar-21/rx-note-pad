@@ -28,7 +28,7 @@ const LoginPage = () => {
           <h1>You are already logged in</h1>
           <Button
             variant="contained"
-            onClick={() => navigate("/new")}
+            onClick={() => navigate("/saved")}
             startIcon={<NoteAddIcon />}
           >
             New Notes

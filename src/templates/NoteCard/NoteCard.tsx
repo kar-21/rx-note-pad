@@ -14,6 +14,66 @@ const NoteCard = ({ isNewCard }: NoteCardProp) => {
   const [clickedOnExpand, setClickedOnExpand] = useState(false);
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
 
+  const ColorPalettePicker = () => {
+    return (
+      <>
+        {isColorPaletteOpened ? (
+          <div className="color-palette-container">
+            <IconButton
+              className={`color-palette palette-1 ${
+                backgroundColor === "#A8A8A8" ? "color-palette--selected" : ""
+              }`}
+              onClick={() => {
+                setBackgroundColor("#A8A8A8");
+                setIsColorPaletteOpened(false);
+              }}
+            />
+            <IconButton
+              className={`color-palette palette-2 ${
+                backgroundColor === "#EDA6A6" ? "color-palette--selected" : ""
+              }`}
+              onClick={() => {
+                setBackgroundColor("#EDA6A6");
+                setIsColorPaletteOpened(false);
+              }}
+            />
+            <IconButton
+              className={`color-palette palette-3 ${
+                backgroundColor === "#A6EDA6" ? "color-palette--selected" : ""
+              }`}
+              onClick={() => {
+                setBackgroundColor("#A6EDA6");
+                setIsColorPaletteOpened(false);
+              }}
+            />
+            <IconButton
+              className={`color-palette palette-4 ${
+                backgroundColor === "#A6A6ED" ? "color-palette--selected" : ""
+              }`}
+              onClick={() => {
+                setBackgroundColor("#A6A6ED");
+                setIsColorPaletteOpened(false);
+              }}
+            />
+            <IconButton
+              className={`color-palette palette-5 ${
+                backgroundColor === "#F5F5F5" ? "color-palette--selected" : ""
+              }`}
+              onClick={() => {
+                setBackgroundColor("#F5F5F5");
+                setIsColorPaletteOpened(false);
+              }}
+            />
+          </div>
+        ) : (
+          <IconButton onClick={() => setIsColorPaletteOpened(true)}>
+            <ColorLensIcon />
+          </IconButton>
+        )}
+      </>
+    );
+  };
+
   return (
     <Card
       className="note-card"
@@ -25,89 +85,14 @@ const NoteCard = ({ isNewCard }: NoteCardProp) => {
           <>
             {clickedOnExpand ? (
               <>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 1,
-                  }}
-                >
-                  {isColorPaletteOpened ? (
-                    <div className="color-palette-container">
-                      <IconButton
-                        className={`color-palette palette-1 ${
-                          backgroundColor === "#A6A6A6"
-                            ? "color-palette--selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setBackgroundColor("#A6A6A6");
-                          setIsColorPaletteOpened(false);
-                        }}
-                      />
-                      <IconButton
-                        className={`color-palette palette-2 ${
-                          backgroundColor === "#EDA6A6"
-                            ? "color-palette--selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setBackgroundColor("#EDA6A6");
-                          setIsColorPaletteOpened(false);
-                        }}
-                      />
-                      <IconButton
-                        className={`color-palette palette-3 ${
-                          backgroundColor === "#A6EDA6"
-                            ? "color-palette--selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setBackgroundColor("#A6EDA6");
-                          setIsColorPaletteOpened(false);
-                        }}
-                      />
-                      <IconButton
-                        className={`color-palette palette-4 ${
-                          backgroundColor === "#A6A6ED"
-                            ? "color-palette--selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setBackgroundColor("#A6A6ED");
-                          setIsColorPaletteOpened(false);
-                        }}
-                      />
-                      <IconButton
-                        className={`color-palette palette-5 ${
-                          backgroundColor === "#F5F5F5"
-                            ? "color-palette--selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setBackgroundColor("#F5F5F5");
-                          setIsColorPaletteOpened(false);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <IconButton onClick={() => setIsColorPaletteOpened(true)}>
-                      <ColorLensIcon />
-                    </IconButton>
-                  )}
+                <Box className="card-header">
+                  <ColorPalettePicker />
                   <IconButton onClick={() => setClickedOnExpand(false)}>
                     <CloseIcon />
                   </IconButton>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                  <TitleIcon
-                    sx={{
-                      color: "action.active",
-                      mr: 1,
-                      my: 0.5,
-                      fontSize: 40,
-                    }}
-                  />
+                <Box className="card-container">
+                  <TitleIcon className="title-icon" />
                   <TextField
                     placeholder="Title"
                     variant="standard"

@@ -1,18 +1,34 @@
-import { Card, CardContent, IconButton, TextField, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  IconButton,
+  TextField,
+  Box,
+  TextareaAutosize,
+} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createNote } from "../../store/ActionCreators/notes.actionCreators";
 
 export interface NoteCardProp {
   isNewCard: boolean;
 }
 
 const NoteCard = ({ isNewCard }: NoteCardProp) => {
+  const dispatch = useDispatch();
+
   const [backgroundColor, setBackgroundColor] = useState("#F5F5F5");
   const [clickedOnExpand, setClickedOnExpand] = useState(false);
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
+
+  const createNewNote = () => {
+    dispatch(createNote("1234"));
+    setClickedOnExpand(true);
+  };
 
   const ColorPalettePicker = () => {
     return (
@@ -92,18 +108,25 @@ const NoteCard = ({ isNewCard }: NoteCardProp) => {
                   </IconButton>
                 </Box>
                 <Box className="card-container">
-                  <TitleIcon className="title-icon" />
+                  <Box className="title-container">
+                    <TitleIcon className="title-icon" />
+                    <TextField
+                      placeholder="Title"
+                      variant="standard"
+                      inputProps={{ style: { fontSize: 30 } }}
+                      InputLabelProps={{ style: { fontSize: 30 } }}
+                    />
+                  </Box>
                   <TextField
-                    placeholder="Title"
+                    placeholder="Content"
                     variant="standard"
-                    inputProps={{ style: { fontSize: 30 } }}
-                    InputLabelProps={{ style: { fontSize: 30 } }}
-                    focused
+                    multiline
+                    minRows={4}
                   />
                 </Box>
               </>
             ) : (
-              <IconButton onClick={() => setClickedOnExpand(true)}>
+              <IconButton onClick={createNewNote}>
                 <AddCircleIcon fontSize="large" className="add-icon" />
               </IconButton>
             )}

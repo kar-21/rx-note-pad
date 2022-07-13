@@ -42,12 +42,16 @@
 
   .card-container {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
 
-    .title-icon {
-      margin-right: 8px;
-      margin-bottom: 4px;
-      font-size: 40px;
+    .title-container {
+      margin-bottom: 8px;
+
+      .title-icon {
+        margin-right: 8px;
+        margin-bottom: 4px;
+        font-size: 40px;
+      }
     }
   }
 }

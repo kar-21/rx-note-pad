@@ -4,7 +4,6 @@ import {
   IconButton,
   TextField,
   Box,
-  TextareaAutosize,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TitleIcon from "@mui/icons-material/Title";
@@ -12,21 +11,30 @@ import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { v4 as uuidV4 } from "uuid";
+
 import { createNote } from "../../store/ActionCreators/notes.actionCreators";
+import { NotesType } from "../../store/Models/notes.interface";
+import { generateInitialNote } from "../../services/GenerateInitialNote.service";
 
 export interface NoteCardProp {
   isNewCard: boolean;
+  noteId?: string;
+  noteFromRedux?: NotesType;
 }
 
-const NoteCard = ({ isNewCard }: NoteCardProp) => {
+const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
 
   const [backgroundColor, setBackgroundColor] = useState("#F5F5F5");
   const [clickedOnExpand, setClickedOnExpand] = useState(false);
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
+  const [note,] = useState<NotesType>(
+    noteId && noteFromRedux ? noteFromRedux : generateInitialNote(uuidV4())
+  );
 
   const createNewNote = () => {
-    dispatch(createNote("1234"));
+    dispatch(createNote(note.id));
     setClickedOnExpand(true);
   };
 

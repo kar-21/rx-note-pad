@@ -1,19 +1,17 @@
-import {
-  Card,
-  CardContent,
-  IconButton,
-  TextField,
-  Box,
-} from "@mui/material";
+import { Card, CardContent, IconButton, TextField, Box } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
+import * as _ from "lodash";
 
-import { createNote } from "../../store/ActionCreators/notes.actionCreators";
+import {
+  createNote,
+  updateNote,
+} from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
 import { generateInitialNote } from "../../services/GenerateInitialNote.service";
 
@@ -26,10 +24,9 @@ export interface NoteCardProp {
 const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
 
-  const [backgroundColor, setBackgroundColor] = useState("#F5F5F5");
   const [clickedOnExpand, setClickedOnExpand] = useState(false);
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
-  const [note,] = useState<NotesType>(
+  const [note, setNote] = useState<NotesType>(
     noteId && noteFromRedux ? noteFromRedux : generateInitialNote(uuidV4())
   );
 
@@ -38,6 +35,32 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
     setClickedOnExpand(true);
   };
 
+  const updateColorOnChange = (color: string) => {
+    dispatch(updateNote({ ...note, color }));
+    setNote((prev: NotesType) => ({ ...prev, color }));
+    setIsColorPaletteOpened(false);
+  };
+
+  const updateTitleOnChange = (value: string, noteObject: NotesType) => {
+    dispatch(updateNote({ ...noteObject, title: value }));
+    setNote({ ...noteObject, title: value });
+  };
+
+  const updateContentOnChange = (value: string, noteObject: NotesType) => {
+    dispatch(updateNote({ ...noteObject, content: value }));
+    setNote((prev: NotesType) => ({ ...prev, content: value }));
+  };
+
+  const debounceEventHandlerForTitle = useMemo(
+    () => _.debounce(updateTitleOnChange, 500),
+    []
+  );
+
+  const debounceEventHandlerForContent = useMemo(
+    () => _.debounce(updateContentOnChange, 500),
+    []
+  );
+
   const ColorPalettePicker = () => {
     return (
       <>
@@ -45,47 +68,42 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
           <div className="color-palette-container">
             <IconButton
               className={`color-palette palette-1 ${
-                backgroundColor === "#A8A8A8" ? "color-palette--selected" : ""
+                note.color === "#A8A8A8" ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                setBackgroundColor("#A8A8A8");
-                setIsColorPaletteOpened(false);
+                updateColorOnChange("#A8A8A8");
               }}
             />
             <IconButton
               className={`color-palette palette-2 ${
-                backgroundColor === "#EDA6A6" ? "color-palette--selected" : ""
+                note.color === "#EDA6A6" ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                setBackgroundColor("#EDA6A6");
-                setIsColorPaletteOpened(false);
+                updateColorOnChange("#EDA6A6");
               }}
             />
             <IconButton
               className={`color-palette palette-3 ${
-                backgroundColor === "#A6EDA6" ? "color-palette--selected" : ""
+                note.color === "#A6EDA6" ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                setBackgroundColor("#A6EDA6");
-                setIsColorPaletteOpened(false);
+                updateColorOnChange("#A6EDA6");
               }}
             />
             <IconButton
               className={`color-palette palette-4 ${
-                backgroundColor === "#A6A6ED" ? "color-palette--selected" : ""
+                note.color === "#A6A6ED" ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                setBackgroundColor("#A6A6ED");
-                setIsColorPaletteOpened(false);
+                updateColorOnChange("#A6A6ED");
               }}
             />
             <IconButton
               className={`color-palette palette-5 ${
-                backgroundColor === "#F5F5F5" ? "color-palette--selected" : ""
+                note.color === "#F5F5F5" ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                setBackgroundColor("#F5F5F5");
-                setIsColorPaletteOpened(false);
+                updateColorOnChange("#F5F5F5");
               }}
             />
           </div>
@@ -101,7 +119,7 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
   return (
     <Card
       className="note-card"
-      style={{ backgroundColor: backgroundColor }}
+      style={{ backgroundColor: note.color }}
       sx={{ minWidth: clickedOnExpand ? 300 : 5 }}
     >
       <CardContent>
@@ -123,6 +141,9 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
                       variant="standard"
                       inputProps={{ style: { fontSize: 30 } }}
                       InputLabelProps={{ style: { fontSize: 30 } }}
+                      onChange={(e) =>
+                        debounceEventHandlerForTitle(e.target.value, note)
+                      }
                     />
                   </Box>
                   <TextField
@@ -130,6 +151,9 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
                     variant="standard"
                     multiline
                     minRows={4}
+                    onChange={(e) =>
+                      debounceEventHandlerForContent(e.target.value, note)
+                    }
                   />
                 </Box>
               </>

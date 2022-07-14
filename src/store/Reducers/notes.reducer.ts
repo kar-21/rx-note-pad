@@ -1,4 +1,4 @@
-import { NotesReducerType, NotesType } from "./../Models/notes.interface";
+import { NotesReducerType } from "./../Models/notes.interface";
 import { ActionType, getType } from "typesafe-actions";
 import * as notesAction from "../ActionCreators/notes.actionCreators";
 import { generateInitialNote } from "../../services/GenerateInitialNote.service";
@@ -16,6 +16,11 @@ export const notesReducer = (
       return {
         ...state,
         [action.payload]: generateInitialNote(action.payload),
+      };
+    case getType(notesAction.updateNote):
+      return {
+        ...state,
+        [action.payload.id]: action.payload,
       };
     default:
       return state;

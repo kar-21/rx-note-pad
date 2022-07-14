@@ -41,24 +41,30 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
     setIsColorPaletteOpened(false);
   };
 
-  const updateTitleOnChange = (value: string, noteObject: NotesType) => {
-    dispatch(updateNote({ ...noteObject, title: value }));
-    setNote({ ...noteObject, title: value });
-  };
+  const updateTitleOnChange = useCallback(
+    (value: string, noteObject: NotesType) => {
+      dispatch(updateNote({ ...noteObject, title: value }));
+      setNote({ ...noteObject, title: value });
+    },
+    [dispatch]
+  );
 
-  const updateContentOnChange = (value: string, noteObject: NotesType) => {
-    dispatch(updateNote({ ...noteObject, content: value }));
-    setNote((prev: NotesType) => ({ ...prev, content: value }));
-  };
+  const updateContentOnChange = useCallback(
+    (value: string, noteObject: NotesType) => {
+      dispatch(updateNote({ ...noteObject, content: value }));
+      setNote((prev: NotesType) => ({ ...prev, content: value }));
+    },
+    [dispatch]
+  );
 
   const debounceEventHandlerForTitle = useMemo(
     () => _.debounce(updateTitleOnChange, 500),
-    []
+    [updateTitleOnChange]
   );
 
   const debounceEventHandlerForContent = useMemo(
     () => _.debounce(updateContentOnChange, 500),
-    []
+    [updateContentOnChange]
   );
 
   const ColorPalettePicker = () => {

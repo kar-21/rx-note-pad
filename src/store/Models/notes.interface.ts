@@ -8,3 +8,11 @@ export interface NotesType {
 export interface NotesReducerType {
   [key: string]: NotesType;
 }
+
+export interface NotesResponseType {
+  userId: String;
+  noteId: String;
+  title: String;
+  content: String;
+  color: String;
+}

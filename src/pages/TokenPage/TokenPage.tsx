@@ -13,6 +13,7 @@ import {
 } from "../../store/ActionCreators/userDetails.actionCreator";
 import { JwtType } from "../../store/Models/userDetails.interface";
 import { getUserDetails } from "../../store/Actions/userDetails.action";
+import { getUserNotes } from "../../store/Actions/notePad.action";
 
 const Token = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Token = () => {
       const decode: JwtType = jwt_decode(token);
       dispatch(setUserID(decode?.userId));
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
+      dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
       setCookie("token", token, { path: "/" });
       navigate("/saved");
     }

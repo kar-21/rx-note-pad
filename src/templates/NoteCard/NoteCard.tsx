@@ -14,6 +14,7 @@ import {
 } from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
 import { generateInitialNote } from "../../services/GenerateInitialNote.service";
+import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 
 export interface NoteCardProp {
   isNewCard: boolean;
@@ -32,6 +33,7 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
 
   const createNewNote = () => {
     dispatch(createNote(note.id));
+    dispatch(setSelectedNoteId(note.id));
     setClickedOnExpand(true);
   };
 
@@ -135,7 +137,12 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
               <>
                 <Box className="card-header">
                   <ColorPalettePicker />
-                  <IconButton onClick={() => setClickedOnExpand(false)}>
+                  <IconButton
+                    onClick={() => {
+                      setClickedOnExpand(false);
+                      dispatch(setSelectedNoteId(""));
+                    }}
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Box>

@@ -9,9 +9,10 @@ const SavedNotes = () => {
     <div className="saved-notes-page-container">
       <h1>Saved Notes</h1>
       {Object.values(notes).map((note) => (
-        <NoteCard key={note.id} isNewCard={false} noteFromRedux={note} />
+        <>
+          <NoteCard key={note.id} noteFromRedux={note} />
+        </>
       ))}
-      <NoteCard isNewCard />
     </div>
   );
 };

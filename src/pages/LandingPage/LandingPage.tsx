@@ -14,6 +14,7 @@ import jwt_decode from "jwt-decode";
 import { JwtType } from "../../store/Models/userDetails.interface";
 import { getUserDetails } from "../../store/Actions/userDetails.action";
 import { AnyAction } from "redux";
+import { getUserNotes } from "../../store/Actions/notePad.action";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -25,13 +26,14 @@ const LandingPage = () => {
   );
 
   useEffect(() => {
-    if (cookie?.token) {
+    if (!jwtToken && cookie?.token) {
       dispatch(setJwtToken(cookie.token));
       const decode: JwtType = jwt_decode(cookie?.token);
       dispatch(setUserID(decode?.userId));
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
+      dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
     }
-  }, [dispatch, cookie]);
+  }, [dispatch, cookie, jwtToken]);
 
   return (
     <div className="landing-page-container">

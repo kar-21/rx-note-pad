@@ -4,8 +4,7 @@ import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCallback, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
-import { v4 as uuidV4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
 import {
@@ -13,28 +12,26 @@ import {
   updateNote,
 } from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
-import { generateInitialNote } from "../../services/GenerateInitialNote.service";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
+import { RootState } from "../../store/Reducers";
 
 export interface NoteCardProp {
-  isNewCard: boolean;
-  noteId?: string;
-  noteFromRedux?: NotesType;
+  noteFromRedux: NotesType;
 }
 
-const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
+const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
 
-  const [clickedOnExpand, setClickedOnExpand] = useState(false);
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
-  const [note, setNote] = useState<NotesType>(
-    noteId && noteFromRedux ? noteFromRedux : generateInitialNote(uuidV4())
+  const [note, setNote] = useState<NotesType>(noteFromRedux);
+
+  const { selectedNoteId } = useSelector(
+    (state: RootState) => state.commonStateReducer
   );
 
   const createNewNote = () => {
     dispatch(createNote(note.id));
     dispatch(setSelectedNoteId(note.id));
-    setClickedOnExpand(true);
   };
 
   const updateColorOnChange = (color: string) => {
@@ -128,18 +125,17 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
     <Card
       className="note-card"
       style={{ backgroundColor: note.color }}
-      sx={{ minWidth: clickedOnExpand ? 300 : 5 }}
+      sx={{ minWidth: selectedNoteId === note.id ? 300 : 5 }}
     >
       <CardContent>
-        {isNewCard ? (
+        {selectedNoteId === note.id ? (
           <>
-            {clickedOnExpand ? (
+            {selectedNoteId === note.id ? (
               <>
                 <Box className="card-header">
                   <ColorPalettePicker />
                   <IconButton
                     onClick={() => {
-                      setClickedOnExpand(false);
                       dispatch(setSelectedNoteId(""));
                     }}
                   >
@@ -152,6 +148,7 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
                     <TextField
                       placeholder="Title"
                       variant="standard"
+                      value={note.title}
                       inputProps={{ style: { fontSize: 30 } }}
                       InputLabelProps={{ style: { fontSize: 30 } }}
                       onChange={(e) =>
@@ -163,6 +160,7 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
                     placeholder="Content"
                     variant="standard"
                     multiline
+                    value={note.content}
                     minRows={4}
                     onChange={(e) =>
                       debounceEventHandlerForContent(e.target.value, note)
@@ -177,7 +175,10 @@ const NoteCard = ({ isNewCard, noteId, noteFromRedux }: NoteCardProp) => {
             )}
           </>
         ) : (
-          <h1>Card Name</h1>
+          <>
+            <h1>{note.title}</h1>
+            <p>{note.content}</p>
+          </>
         )}
       </CardContent>
     </Card>

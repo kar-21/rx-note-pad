@@ -1,4 +1,4 @@
-import { commonStateType } from "./../Models/commonState.interace";
+import { commonStateType } from "../Models/commonState.interface";
 import { UserDetails } from "./../Models/userDetails.interface";
 import { combineReducers } from "redux";
 import { userDetailsReducer } from "./userDetails.reducer";

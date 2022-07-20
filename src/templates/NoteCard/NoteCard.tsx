@@ -1,5 +1,4 @@
 import { Card, CardContent, IconButton, TextField, Box } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,10 +6,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
-import {
-  createNote,
-  updateNote,
-} from "../../store/ActionCreators/notes.actionCreators";
+import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
@@ -28,11 +24,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const { selectedNoteId } = useSelector(
     (state: RootState) => state.commonStateReducer
   );
-
-  const createNewNote = () => {
-    dispatch(createNote(note.id));
-    dispatch(setSelectedNoteId(note.id));
-  };
 
   const updateColorOnChange = (color: string) => {
     dispatch(updateNote({ ...note, color }));
@@ -130,49 +121,41 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
       <CardContent>
         {selectedNoteId === note.id ? (
           <>
-            {selectedNoteId === note.id ? (
-              <>
-                <Box className="card-header">
-                  <ColorPalettePicker />
-                  <IconButton
-                    onClick={() => {
-                      dispatch(setSelectedNoteId(""));
-                    }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-                <Box className="card-container">
-                  <Box className="title-container">
-                    <TitleIcon className="title-icon" />
-                    <TextField
-                      placeholder="Title"
-                      variant="standard"
-                      value={note.title}
-                      inputProps={{ style: { fontSize: 30 } }}
-                      InputLabelProps={{ style: { fontSize: 30 } }}
-                      onChange={(e) =>
-                        debounceEventHandlerForTitle(e.target.value, note)
-                      }
-                    />
-                  </Box>
-                  <TextField
-                    placeholder="Content"
-                    variant="standard"
-                    multiline
-                    value={note.content}
-                    minRows={4}
-                    onChange={(e) =>
-                      debounceEventHandlerForContent(e.target.value, note)
-                    }
-                  />
-                </Box>
-              </>
-            ) : (
-              <IconButton onClick={createNewNote}>
-                <AddCircleIcon fontSize="large" className="add-icon" />
+            <Box className="card-header">
+              <ColorPalettePicker />
+              <IconButton
+                onClick={() => {
+                  dispatch(setSelectedNoteId(""));
+                }}
+              >
+                <CloseIcon />
               </IconButton>
-            )}
+            </Box>
+            <Box className="card-container">
+              <Box className="title-container">
+                <TitleIcon className="title-icon" />
+                <TextField
+                  placeholder="Title"
+                  variant="standard"
+                  defaultValue={note.title}
+                  inputProps={{ style: { fontSize: 30 } }}
+                  InputLabelProps={{ style: { fontSize: 30 } }}
+                  onChange={(e) =>
+                    debounceEventHandlerForTitle(e.target.value, note)
+                  }
+                />
+              </Box>
+              <TextField
+                placeholder="Content"
+                variant="standard"
+                multiline
+                defaultValue={note.content}
+                minRows={4}
+                onChange={(e) =>
+                  debounceEventHandlerForContent(e.target.value, note)
+                }
+              />
+            </Box>
           </>
         ) : (
           <>

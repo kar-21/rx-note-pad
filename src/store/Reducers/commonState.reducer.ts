@@ -1,6 +1,6 @@
 import { ActionType, getType } from "typesafe-actions";
 import * as commonStateAction from "../ActionCreators/commonState.actionCreators";
-import { commonStateType } from "../Models/commonState.interace";
+import { commonStateType } from "../Models/commonState.interface";
 
 const initialState: commonStateType = {
   selectedNoteId: "",

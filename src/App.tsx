@@ -7,6 +7,7 @@ import SavedNotes from "./pages/SavedNotesPage/SavedNotesPage";
 import NavigationHeader from "./templates/NavigationHeader/NavigationHeader";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import TokenPage from "./pages/TokenPage/TokenPage";
+import GetUserInfo from "./templates/GetUserInfo/GetUserInfo";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <BrowserRouter>
         <Suspense>
           <NavigationHeader />
+          <GetUserInfo />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/saved" element={<SavedNotes />} />

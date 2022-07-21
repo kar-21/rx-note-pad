@@ -2,38 +2,15 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import LoginIcon from "@mui/icons-material/Login";
-import { useCookies } from "react-cookie";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setJwtToken,
-  setUserID,
-} from "../../store/ActionCreators/userDetails.actionCreator";
 import { RootState } from "../../store/Reducers";
-import jwt_decode from "jwt-decode";
-import { JwtType } from "../../store/Models/userDetails.interface";
-import { getUserDetails } from "../../store/Actions/userDetails.action";
-import { AnyAction } from "redux";
-import { getUserNotes } from "../../store/Actions/notePad.action";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [cookie] = useCookies(["token"]);
 
   const { jwtToken } = useSelector(
     (state: RootState) => state.userDetailsReducer
   );
-
-  useEffect(() => {
-    if (!jwtToken && cookie?.token) {
-      dispatch(setJwtToken(cookie.token));
-      const decode: JwtType = jwt_decode(cookie?.token);
-      dispatch(setUserID(decode?.userId));
-      dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
-      dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
-    }
-  }, [dispatch, cookie, jwtToken]);
 
   return (
     <div className="landing-page-container">

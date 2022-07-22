@@ -1,9 +1,13 @@
+import { generateInitialNote } from "./../../services/GenerateInitialNote.service";
 import { AnyAction } from "redux";
 import { Dispatch } from "redux";
 
-import { getAPI } from "../../httpClient/httpClient";
+import { getAPI, postAPI } from "../../httpClient/httpClient";
 import { NotesA2OTransformService } from "../../services/NotesA2OTransform.service";
-import { getUserNotesSuccess } from "../ActionCreators/notes.actionCreators";
+import {
+  createNote,
+  getUserNotesSuccess,
+} from "../ActionCreators/notes.actionCreators";
 
 export const getUserNotes =
   (userId: string) =>
@@ -11,12 +15,25 @@ export const getUserNotes =
     const notesResponse = await getAPI(
       `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
     );
-    console.log(">>>> res", notesResponse);
     if (notesResponse.status === 200) {
       dispatch(
         getUserNotesSuccess(
-          NotesA2OTransformService(JSON.parse(notesResponse.data))
+          NotesA2OTransformService(notesResponse.data)
         )
       );
+    }
+  };
+
+export const createNewNote =
+  (userId: string, noteId: string) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    const newNote = generateInitialNote(noteId);
+    console.log(">>>", newNote);
+    const notesResponse = await postAPI(
+      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
+      newNote
+    );
+    if (notesResponse.status === 200) {
+      dispatch(createNote(noteId));
     }
   };

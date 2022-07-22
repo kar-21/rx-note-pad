@@ -23,7 +23,7 @@ export const getUserDetails =
         { sub: userId }
       );
       if (userDetails.status === 200) {
-        dispatch(getUserDetailsSuccess(JSON.parse(userDetails.data)));
+        dispatch(getUserDetailsSuccess(userDetails.data));
       }
     }
   };

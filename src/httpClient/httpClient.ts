@@ -1,9 +1,16 @@
 import axios from "axios";
 
-const axiosInstance = new axios.Axios({});
+const axiosInstance = axios.create({});
+
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const getAPI = (url: string, body?: any) => {
   return axiosInstance.get(url, { params: { ...body } });
 };
 
-export { getAPI };
+const postAPI = (url: string, body?: {}) => {
+  console.log(body);
+  return axiosInstance.post(url, body);
+};
+
+export { getAPI, postAPI };

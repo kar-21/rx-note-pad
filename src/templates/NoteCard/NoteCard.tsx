@@ -2,6 +2,7 @@ import { Card, CardContent, IconButton, TextField, Box } from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
@@ -177,10 +178,22 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
             </Box>
           </>
         ) : (
-          <>
-            <h1>{note.title}</h1>
-            <p>{note.content}</p>
-          </>
+          <Box className="note-card-short-view">
+            <Box>
+              <h1>{note.title}</h1>
+              <p>{note.content}</p>
+            </Box>
+            <Box className="expand-icon-container">
+              <IconButton
+                className="expand-icon"
+                onClick={() => {
+                  dispatch(setSelectedNoteId(note.id));
+                }}
+              >
+                <OpenInFullIcon />
+              </IconButton>
+            </Box>
+          </Box>
         )}
       </CardContent>
     </Card>

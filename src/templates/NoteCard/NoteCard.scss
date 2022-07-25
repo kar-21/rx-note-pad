@@ -1,6 +1,7 @@
 .note-card {
   display: flex;
   margin: 12px;
+  display: inline-block;
 
   .card-header {
     display: flex;
@@ -48,6 +49,20 @@
         margin-right: 8px;
         margin-bottom: 4px;
         font-size: 40px;
+      }
+    }
+  }
+
+  .note-card-short-view {
+    display: flex;
+
+    .expand-icon-container {
+      display: flex;
+      align-items: center;
+
+      .expand-icon {
+        height: fit-content;
+        width: fit-content;
       }
     }
   }

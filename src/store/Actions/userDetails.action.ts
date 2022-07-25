@@ -10,7 +10,7 @@ export const redirectOauth2URI =
         `${process.env.REACT_APP_BACKEND_API}/login`
       );
       if (redirectURI.status === 200) {
-        window.location.replace(JSON.parse(redirectURI.data).redirectURL);
+        window.location.replace(redirectURI.data.redirectURL);
       }
     }
   };

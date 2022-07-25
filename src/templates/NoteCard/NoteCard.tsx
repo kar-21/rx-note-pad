@@ -10,6 +10,8 @@ import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
+import { saveNote } from "../../store/Actions/notePad.action";
+import { AnyAction } from "redux";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -25,9 +27,14 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     (state: RootState) => state.commonStateReducer
   );
 
+  const { userId } = useSelector(
+    (state: RootState) => state.userDetailsReducer
+  );
+
   const updateColorOnChange = (color: string) => {
     dispatch(updateNote({ ...note, color }));
     setNote((prev: NotesType) => ({ ...prev, color }));
+    dispatch(saveNote(userId, { ...note, color }) as unknown as AnyAction);
     setIsColorPaletteOpened(false);
   };
 
@@ -35,16 +42,28 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     (value: string, noteObject: NotesType) => {
       dispatch(updateNote({ ...noteObject, title: value }));
       setNote({ ...noteObject, title: value });
+      dispatch(
+        saveNote(userId, {
+          ...noteObject,
+          title: value,
+        }) as unknown as AnyAction
+      );
     },
-    [dispatch]
+    [dispatch, userId]
   );
 
   const updateContentOnChange = useCallback(
     (value: string, noteObject: NotesType) => {
       dispatch(updateNote({ ...noteObject, content: value }));
       setNote((prev: NotesType) => ({ ...prev, content: value }));
+      dispatch(
+        saveNote(userId, {
+          ...noteObject,
+          content: value,
+        }) as unknown as AnyAction
+      );
     },
-    [dispatch]
+    [dispatch, userId]
   );
 
   const debounceEventHandlerForTitle = useMemo(

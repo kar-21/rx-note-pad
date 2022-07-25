@@ -1,8 +1,9 @@
+import { NotesType } from "./../Models/notes.interface";
 import { generateInitialNote } from "./../../services/GenerateInitialNote.service";
 import { AnyAction } from "redux";
 import { Dispatch } from "redux";
 
-import { getAPI, postAPI } from "../../httpClient/httpClient";
+import { getAPI, patchAPI, postAPI } from "../../httpClient/httpClient";
 import { NotesA2OTransformService } from "../../services/NotesA2OTransform.service";
 import {
   createNote,
@@ -17,9 +18,7 @@ export const getUserNotes =
     );
     if (notesResponse.status === 200) {
       dispatch(
-        getUserNotesSuccess(
-          NotesA2OTransformService(notesResponse.data)
-        )
+        getUserNotesSuccess(NotesA2OTransformService(notesResponse.data))
       );
     }
   };
@@ -35,5 +34,17 @@ export const createNewNote =
     );
     if (notesResponse.status === 200) {
       dispatch(createNote(noteId));
+    }
+  };
+
+export const saveNote =
+  (userId: string, note: NotesType) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    const notesResponse = await patchAPI(
+      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
+      note
+    );
+    if (notesResponse.status === 200) {
+      console.log(">> successful");
     }
   };

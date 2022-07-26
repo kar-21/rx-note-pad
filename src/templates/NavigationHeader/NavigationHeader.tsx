@@ -2,12 +2,14 @@ import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 import { RootState } from "../../store/Reducers";
 
 const NavigationHeader = () => {
   const navigate = useNavigate();
 
-  const { jwtToken } = useSelector(
+  const { jwtToken, given_name } = useSelector(
     (state: RootState) => state.userDetailsReducer
   );
 
@@ -27,7 +29,10 @@ const NavigationHeader = () => {
           Note Pad
         </Typography>
         {jwtToken ? (
-          <></>
+          <span className="name-container">
+            <AccountCircleIcon />
+            {given_name}
+          </span>
         ) : (
           <Button color="inherit" onClick={() => navigate("/login")}>
             Login

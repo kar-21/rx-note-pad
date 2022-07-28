@@ -14,5 +14,13 @@ export interface NotesResponseType {
   noteId: String;
   title: String;
   content: String;
-  color: String;
+  color: Color;
+}
+
+export enum Color {
+  white = "#F5F5F5",
+  gray = "#A8A8A8",
+  red = "#EDA6A6",
+  green = "#A6EDA6",
+  blue = "#A6A6ED",
 }

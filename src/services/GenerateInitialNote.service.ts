@@ -1,8 +1,8 @@
-import { NotesType } from "../store/Models/notes.interface";
+import { Color, NotesType } from "../store/Models/notes.interface";
 
 export const generateInitialNote = (id: string): NotesType => ({
   id,
   title: "",
   content: "",
-  color: "#F5F5F5",
+  color: Object.values(Color)[Math.floor(Math.random() * 5)],
 });

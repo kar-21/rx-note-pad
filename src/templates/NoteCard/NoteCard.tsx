@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
 import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
-import { NotesType } from "../../store/Models/notes.interface";
+import { Color, NotesType } from "../../store/Models/notes.interface";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
 import { saveNote } from "../../store/Actions/notePad.action";
@@ -84,42 +84,42 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
           <div className="color-palette-container">
             <IconButton
               className={`color-palette palette-1 ${
-                note.color === "#A8A8A8" ? "color-palette--selected" : ""
+                note.color === Color.gray ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                updateColorOnChange("#A8A8A8");
+                updateColorOnChange(Color.gray);
               }}
             />
             <IconButton
               className={`color-palette palette-2 ${
-                note.color === "#EDA6A6" ? "color-palette--selected" : ""
+                note.color === Color.red ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                updateColorOnChange("#EDA6A6");
+                updateColorOnChange(Color.red);
               }}
             />
             <IconButton
               className={`color-palette palette-3 ${
-                note.color === "#A6EDA6" ? "color-palette--selected" : ""
+                note.color === Color.green ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                updateColorOnChange("#A6EDA6");
+                updateColorOnChange(Color.green);
               }}
             />
             <IconButton
               className={`color-palette palette-4 ${
-                note.color === "#A6A6ED" ? "color-palette--selected" : ""
+                note.color === Color.blue ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                updateColorOnChange("#A6A6ED");
+                updateColorOnChange(Color.blue);
               }}
             />
             <IconButton
               className={`color-palette palette-5 ${
-                note.color === "#F5F5F5" ? "color-palette--selected" : ""
+                note.color === Color.white ? "color-palette--selected" : ""
               }`}
               onClick={() => {
-                updateColorOnChange("#F5F5F5");
+                updateColorOnChange(Color.white);
               }}
             />
           </div>

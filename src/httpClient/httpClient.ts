@@ -24,4 +24,14 @@ const patchAPI = (url: string, body?: {}) => {
   });
 };
 
-export { getAPI, postAPI, patchAPI };
+const deleteAPI = (url: string, body?: {}) => {
+  console.log(body);
+  return axiosInstance.delete(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+  });
+};
+
+export { getAPI, postAPI, patchAPI, deleteAPI };

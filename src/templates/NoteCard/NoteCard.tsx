@@ -3,6 +3,7 @@ import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
@@ -11,7 +12,7 @@ import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
 import { Color, NotesType } from "../../store/Models/notes.interface";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
-import { saveNote } from "../../store/Actions/notePad.action";
+import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
 import { AnyAction } from "redux";
 
 export interface NoteCardProp {
@@ -142,12 +143,19 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
         {selectedNoteId === note.id ? (
           <>
             <Box className="card-header">
-              <ColorPalettePicker />
-              <IconButton
-                onClick={() => {
-                  dispatch(setSelectedNoteId(""));
-                }}
-              >
+              <Box className="card-header-left">
+                <ColorPalettePicker />
+                <IconButton
+                  onClick={() =>
+                    dispatch(
+                      deleteNote(userId, note.id) as unknown as AnyAction
+                    )
+                  }
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Box>
+              <IconButton onClick={() => dispatch(setSelectedNoteId(""))}>
                 <CloseIcon />
               </IconButton>
             </Box>

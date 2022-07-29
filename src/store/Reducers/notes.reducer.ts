@@ -14,7 +14,6 @@ export const notesReducer = (
   switch (action.type) {
     case getType(notesAction.getUserNotesSuccess):
       return {
-        ...state,
         ...action.payload,
       };
     case getType(notesAction.createNote):

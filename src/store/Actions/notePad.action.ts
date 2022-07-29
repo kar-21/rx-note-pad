@@ -3,7 +3,12 @@ import { generateInitialNote } from "./../../services/GenerateInitialNote.servic
 import { AnyAction } from "redux";
 import { Dispatch } from "redux";
 
-import { getAPI, patchAPI, postAPI } from "../../httpClient/httpClient";
+import {
+  deleteAPI,
+  getAPI,
+  patchAPI,
+  postAPI,
+} from "../../httpClient/httpClient";
 import { NotesA2OTransformService } from "../../services/NotesA2OTransform.service";
 import {
   createNote,
@@ -46,5 +51,24 @@ export const saveNote =
     );
     if (notesResponse.status === 200) {
       console.log(">> successful");
+    }
+  };
+
+export const deleteNote =
+  (userId: string, noteId: string) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    const noteDeleteResponse = await deleteAPI(
+      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
+      { noteId }
+    );
+    if (noteDeleteResponse.status === 200) {
+      const notesGetResponse = await getAPI(
+        `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
+      );
+      if (notesGetResponse.status === 200) {
+        dispatch(
+          getUserNotesSuccess(NotesA2OTransformService(notesGetResponse.data))
+        );
+      }
     }
   };

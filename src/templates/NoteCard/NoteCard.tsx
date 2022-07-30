@@ -187,9 +187,9 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
           </>
         ) : (
           <Box className="note-card-short-view">
-            <Box>
-              <h1>{note.title}</h1>
-              <p>{note.content}</p>
+            <Box className="short-view-container">
+              <h1 className="no-margin">{note.title}</h1>
+              <p className="no-margin">{note.content}</p>
             </Box>
             <Box className="expand-icon-container">
               <IconButton

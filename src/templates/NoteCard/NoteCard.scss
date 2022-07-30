@@ -60,6 +60,14 @@
   .note-card-short-view {
     display: flex;
 
+    .short-view-container {
+      padding-right: 20px;
+
+      .no-margin {
+        margin: 0px;
+      }
+    }
+
     .expand-icon-container {
       display: flex;
       align-items: center;

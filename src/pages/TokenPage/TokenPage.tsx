@@ -32,7 +32,7 @@ const Token = () => {
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
       dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
       setCookie("token", token, { path: "/" });
-      navigate("/saved");
+      navigate("/my-notes");
     }
   }, [dispatch, navigate, setCookie, token]);
 

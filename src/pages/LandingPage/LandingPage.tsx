@@ -19,10 +19,10 @@ const LandingPage = () => {
       <div className="button-container">
         <Button
           variant="contained"
-          onClick={() => navigate("/saved")}
+          onClick={() => navigate("/my-notes")}
           startIcon={<NoteAddIcon />}
         >
-          New Notes
+          My Notes
         </Button>
         {jwtToken ? (
           <></>

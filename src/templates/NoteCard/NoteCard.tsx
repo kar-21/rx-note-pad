@@ -14,7 +14,10 @@ import { setSelectedNoteId } from "../../store/ActionCreators/commonState.action
 import { RootState } from "../../store/Reducers";
 import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
 import { AnyAction } from "redux";
-import { saveLocalNote } from "../../store/Actions/localNotePad.action";
+import {
+  deleteLocalNote,
+  saveLocalNote,
+} from "../../store/Actions/localNotePad.action";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -86,6 +89,11 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     },
     [dispatch, userId]
   );
+
+  const handleDeleteNote = () => {
+    if (userId) dispatch(deleteNote(userId, note.id) as unknown as AnyAction);
+    else dispatch(deleteLocalNote(note.id) as unknown as AnyAction);
+  };
 
   const debounceEventHandlerForTitle = useMemo(
     () => _.debounce(updateTitleOnChange, 500),
@@ -164,13 +172,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
             <Box className="card-header">
               <Box className="card-header-left">
                 <ColorPalettePicker />
-                <IconButton
-                  onClick={() =>
-                    dispatch(
-                      deleteNote(userId, note.id) as unknown as AnyAction
-                    )
-                  }
-                >
+                <IconButton onClick={handleDeleteNote}>
                   <DeleteForeverIcon />
                 </IconButton>
               </Box>

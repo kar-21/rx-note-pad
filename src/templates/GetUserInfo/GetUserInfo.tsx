@@ -12,6 +12,7 @@ import { getUserNotes } from "../../store/Actions/notePad.action";
 import { getUserDetails } from "../../store/Actions/userDetails.action";
 import { JwtType } from "../../store/Models/userDetails.interface";
 import { RootState } from "../../store/Reducers";
+import { getAllLocalNotes } from "../../store/Actions/localNotePad.action";
 
 const GetUserInfo = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const GetUserInfo = () => {
       dispatch(setUserID(decode?.userId));
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
       dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
+    } else {
+      dispatch(getAllLocalNotes() as unknown as AnyAction)
     }
   }, [dispatch, cookie, jwtToken]);
 

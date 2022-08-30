@@ -14,6 +14,7 @@ import {
 import { JwtType } from "../../store/Models/userDetails.interface";
 import { getUserDetails } from "../../store/Actions/userDetails.action";
 import { getUserNotes } from "../../store/Actions/notePad.action";
+import { getAllLocalNotes } from "../../store/Actions/localNotePad.action";
 
 const Token = () => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const Token = () => {
       dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
       setCookie("token", token, { path: "/" });
       navigate("/my-notes");
+    } else {
+      dispatch(getAllLocalNotes() as unknown as AnyAction)
     }
   }, [dispatch, navigate, setCookie, token]);
 

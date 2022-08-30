@@ -14,6 +14,7 @@ import { setSelectedNoteId } from "../../store/ActionCreators/commonState.action
 import { RootState } from "../../store/Reducers";
 import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
 import { AnyAction } from "redux";
+import { saveLocalNote } from "../../store/Actions/localNotePad.action";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -36,7 +37,9 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const updateColorOnChange = (color: string) => {
     dispatch(updateNote({ ...note, color }));
     setNote((prev: NotesType) => ({ ...prev, color }));
-    dispatch(saveNote(userId, { ...note, color }) as unknown as AnyAction);
+    if (userId)
+      dispatch(saveNote(userId, { ...note, color }) as unknown as AnyAction);
+    else dispatch(saveLocalNote({ ...note, color }) as unknown as AnyAction);
     setIsColorPaletteOpened(false);
   };
 
@@ -44,12 +47,20 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     (value: string, noteObject: NotesType) => {
       dispatch(updateNote({ ...noteObject, title: value }));
       setNote({ ...noteObject, title: value });
-      dispatch(
-        saveNote(userId, {
-          ...noteObject,
-          title: value,
-        }) as unknown as AnyAction
-      );
+      if (userId)
+        dispatch(
+          saveNote(userId, {
+            ...noteObject,
+            title: value,
+          }) as unknown as AnyAction
+        );
+      else
+        dispatch(
+          saveLocalNote({
+            ...noteObject,
+            title: value,
+          }) as unknown as AnyAction
+        );
     },
     [dispatch, userId]
   );
@@ -58,12 +69,20 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     (value: string, noteObject: NotesType) => {
       dispatch(updateNote({ ...noteObject, content: value }));
       setNote((prev: NotesType) => ({ ...prev, content: value }));
-      dispatch(
-        saveNote(userId, {
-          ...noteObject,
-          content: value,
-        }) as unknown as AnyAction
-      );
+      if (userId)
+        dispatch(
+          saveNote(userId, {
+            ...noteObject,
+            content: value,
+          }) as unknown as AnyAction
+        );
+      else
+        dispatch(
+          saveLocalNote({
+            ...noteObject,
+            content: value,
+          }) as unknown as AnyAction
+        );
     },
     [dispatch, userId]
   );

@@ -1,10 +1,18 @@
-import { Card, CardContent, IconButton, TextField, Box } from "@mui/material";
+import React, { useCallback, useMemo, useState } from "react";
+import {
+  Card,
+  CardContent,
+  IconButton,
+  TextField,
+  Box,
+  Alert,
+} from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useCallback, useMemo, useState } from "react";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
@@ -28,6 +36,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
 
   const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
   const [note, setNote] = useState<NotesType>(noteFromRedux);
+  const [isAlertBoxOpen, setIsAlertBoxOpen] = useState(false);
 
   const { selectedNoteId } = useSelector(
     (state: RootState) => state.commonStateReducer
@@ -105,6 +114,13 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     [updateContentOnChange]
   );
 
+  const handleShowAlertBox = () => {
+    setIsAlertBoxOpen(true);
+    setTimeout(() => {
+      setIsAlertBoxOpen(false);
+    }, 10000);
+  };
+
   const ColorPalettePicker = () => {
     return (
       <>
@@ -175,11 +191,35 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <IconButton onClick={handleDeleteNote}>
                   <DeleteForeverIcon />
                 </IconButton>
+                {!userId && (
+                  <IconButton onClick={handleShowAlertBox}>
+                    <WarningAmberIcon />
+                  </IconButton>
+                )}
               </Box>
               <IconButton onClick={() => dispatch(setSelectedNoteId(""))}>
                 <CloseIcon />
               </IconButton>
             </Box>
+            {!userId && isAlertBoxOpen && (
+              <Alert
+                severity="warning"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setIsAlertBoxOpen(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+              >
+                This Note is saved locally. Login / SignUp to save your work.
+              </Alert>
+            )}
             <Box className="card-container">
               <Box className="title-container">
                 <TitleIcon className="title-icon" />

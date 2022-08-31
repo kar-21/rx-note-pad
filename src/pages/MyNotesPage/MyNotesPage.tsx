@@ -9,7 +9,7 @@ const SavedNotes = () => {
 
   return (
     <div className="saved-notes-page-container">
-      <h1>Saved Notes</h1>
+      <h1>My Notes</h1>
       <Box className="saved-notes-card-container">
         {Object.values(notes).map((note) => (
           <>

@@ -8,7 +8,6 @@ import {
   Alert,
 } from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -26,6 +25,7 @@ import {
   deleteLocalNote,
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
+import ColorPalettePicker from "../../molecules/ColorPalettePicker";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -34,7 +34,6 @@ export interface NoteCardProp {
 const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
 
-  const [isColorPaletteOpened, setIsColorPaletteOpened] = useState(false);
   const [note, setNote] = useState<NotesType>(noteFromRedux);
   const [isAlertBoxOpen, setIsAlertBoxOpen] = useState(false);
 
@@ -52,7 +51,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     if (userId)
       dispatch(saveNote(userId, { ...note, color }) as unknown as AnyAction);
     else dispatch(saveLocalNote({ ...note, color }) as unknown as AnyAction);
-    setIsColorPaletteOpened(false);
   };
 
   const updateTitleOnChange = useCallback(
@@ -121,61 +119,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     }, 10000);
   };
 
-  const ColorPalettePicker = () => {
-    return (
-      <>
-        {isColorPaletteOpened ? (
-          <div className="color-palette-container">
-            <IconButton
-              className={`color-palette palette-1 ${
-                note.color === Color.gray ? "color-palette--selected" : ""
-              }`}
-              onClick={() => {
-                updateColorOnChange(Color.gray);
-              }}
-            />
-            <IconButton
-              className={`color-palette palette-2 ${
-                note.color === Color.red ? "color-palette--selected" : ""
-              }`}
-              onClick={() => {
-                updateColorOnChange(Color.red);
-              }}
-            />
-            <IconButton
-              className={`color-palette palette-3 ${
-                note.color === Color.green ? "color-palette--selected" : ""
-              }`}
-              onClick={() => {
-                updateColorOnChange(Color.green);
-              }}
-            />
-            <IconButton
-              className={`color-palette palette-4 ${
-                note.color === Color.blue ? "color-palette--selected" : ""
-              }`}
-              onClick={() => {
-                updateColorOnChange(Color.blue);
-              }}
-            />
-            <IconButton
-              className={`color-palette palette-5 ${
-                note.color === Color.white ? "color-palette--selected" : ""
-              }`}
-              onClick={() => {
-                updateColorOnChange(Color.white);
-              }}
-            />
-          </div>
-        ) : (
-          <IconButton onClick={() => setIsColorPaletteOpened(true)}>
-            <ColorLensIcon />
-          </IconButton>
-        )}
-      </>
-    );
-  };
-
   return (
     <Card
       className="note-card"
@@ -187,7 +130,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
           <>
             <Box className="card-header">
               <Box className="card-header-left">
-                <ColorPalettePicker />
+                <ColorPalettePicker note={note} onColorChange={updateColorOnChange} />
                 <IconButton onClick={handleDeleteNote}>
                   <DeleteForeverIcon />
                 </IconButton>

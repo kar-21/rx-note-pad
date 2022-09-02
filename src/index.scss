@@ -2,9 +2,10 @@
 @import "./pages/LandingPage/LandingPage.scss";
 @import "./pages/LoginPage/LoginPage.scss";
 @import "./pages/MyNotesPage/MyNotesPage.scss";
-@import "./pages//TokenPage/TokenPage.scss";
+@import "./pages/TokenPage/TokenPage.scss";
 @import "./templates/NoteCard/NoteCard.scss";
 @import "./templates/NavigationHeader/NavigationHeader.scss";
+@import "./molecules/ColorPalettePicker/ColorPalettePicker.scss";
 
 body {
   margin: 0;

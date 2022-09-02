@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IconButton } from "@mui/material";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 
-import { Color, NotesType } from "../store/Models/notes.interface";
+import { Color, NotesType } from "../../store/Models/notes.interface";
 
 interface ColorPalettePickerProp {
   note: NotesType;

@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
 import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
-import { Color, NotesType } from "../../store/Models/notes.interface";
+import { NotesType } from "../../store/Models/notes.interface";
 import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
 import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
@@ -25,7 +25,7 @@ import {
   deleteLocalNote,
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
-import ColorPalettePicker from "../../molecules/ColorPalettePicker";
+import ColorPalettePicker from "../../molecules/ColorPalettePicker/ColorPalettePicker";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;

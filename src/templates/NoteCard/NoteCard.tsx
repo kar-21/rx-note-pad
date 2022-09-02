@@ -26,6 +26,7 @@ import {
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
 import ColorPalettePicker from "../../molecules/ColorPalettePicker/ColorPalettePicker";
+import ContentTextField from "../../molecules/ContentTextField/ContentTextField";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -75,27 +76,9 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     [dispatch, userId]
   );
 
-  const updateContentOnChange = useCallback(
-    (value: string, noteObject: NotesType) => {
-      dispatch(updateNote({ ...noteObject, content: value }));
-      setNote((prev: NotesType) => ({ ...prev, content: value }));
-      if (userId)
-        dispatch(
-          saveNote(userId, {
-            ...noteObject,
-            content: value,
-          }) as unknown as AnyAction
-        );
-      else
-        dispatch(
-          saveLocalNote({
-            ...noteObject,
-            content: value,
-          }) as unknown as AnyAction
-        );
-    },
-    [dispatch, userId]
-  );
+  const updateContentOnChange = (value: string) => {
+    setNote((prev: NotesType) => ({ ...prev, content: value }));
+  };
 
   const handleDeleteNote = () => {
     if (userId) dispatch(deleteNote(userId, note.id) as unknown as AnyAction);
@@ -105,11 +88,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const debounceEventHandlerForTitle = useMemo(
     () => _.debounce(updateTitleOnChange, 500),
     [updateTitleOnChange]
-  );
-
-  const debounceEventHandlerForContent = useMemo(
-    () => _.debounce(updateContentOnChange, 500),
-    [updateContentOnChange]
   );
 
   const handleShowAlertBox = () => {
@@ -130,7 +108,10 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
           <>
             <Box className="card-header">
               <Box className="card-header-left">
-                <ColorPalettePicker note={note} onColorChange={updateColorOnChange} />
+                <ColorPalettePicker
+                  note={note}
+                  onColorChange={updateColorOnChange}
+                />
                 <IconButton onClick={handleDeleteNote}>
                   <DeleteForeverIcon />
                 </IconButton>
@@ -177,15 +158,9 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                   }
                 />
               </Box>
-              <TextField
-                placeholder="Content"
-                variant="standard"
-                multiline
-                defaultValue={note.content}
-                minRows={4}
-                onChange={(e) =>
-                  debounceEventHandlerForContent(e.target.value, note)
-                }
+              <ContentTextField
+                note={note}
+                onContentValueChange={updateContentOnChange}
               />
             </Box>
           </>

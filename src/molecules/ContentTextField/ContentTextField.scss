@@ -1,0 +1,19 @@
+.content-field-container {
+  display: flex;
+
+  .content-field-visual,
+  .content-field-text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+  }
+
+  .content-field-visual {
+    #editor {
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      border-radius: 3px;
+      padding: 10px;
+    }
+  }
+}

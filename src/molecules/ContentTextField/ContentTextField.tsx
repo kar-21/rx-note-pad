@@ -4,8 +4,9 @@ import {
   Button,
   Divider,
   Grid,
-  IconButton,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
@@ -13,7 +14,8 @@ import { AnyAction } from "redux";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import { NotesType } from "../../store/Models/notes.interface";
 import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
 import { saveLocalNote } from "../../store/Actions/localNotePad.action";
@@ -34,6 +36,8 @@ const ContentTextField = ({
   const { userId } = useSelector(
     (state: RootState) => state.userDetailsReducer
   );
+
+  const [formats, setFormats] = useState<string[]>([]);
 
   const [selectionStart, setSelectionStart] = useState(0);
   const [selectionEnd, setSelectionEnd] = useState(0);
@@ -89,6 +93,13 @@ const ContentTextField = ({
     }
   };
 
+  const handleFormat = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: string[]
+  ) => {
+    setFormats(newFormats);
+  };
+
   const toggleEdit = () => {
     setIsEditView((prev) => !prev);
   };
@@ -98,11 +109,24 @@ const ContentTextField = ({
       <Divider />
       {isEditView ? (
         <>
-          <Box>
+          <Box className="style-container">
             <b>Style </b>
-            <IconButton onClick={handleBoldChange}>
-              <FormatBoldIcon />
-            </IconButton>
+            <ToggleButtonGroup
+              value={formats}
+              onChange={handleFormat}
+              aria-label="text formatting"
+              size="small"
+            >
+              <ToggleButton value="bold" aria-label="bold">
+                <FormatBoldIcon />
+              </ToggleButton>
+              <ToggleButton value="italic" aria-label="italic">
+                <FormatItalicIcon />
+              </ToggleButton>
+              <ToggleButton value="underlined" aria-label="underlined">
+                <FormatUnderlinedIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Box>
           <Divider />
           <Grid container className="content-field-container">

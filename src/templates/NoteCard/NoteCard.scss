@@ -20,6 +20,10 @@
     .title-container {
       margin-bottom: 8px;
 
+      .title-field {
+        width: -webkit-fill-available;
+      }
+
       .title-icon {
         margin-right: 8px;
         margin-bottom: 4px;

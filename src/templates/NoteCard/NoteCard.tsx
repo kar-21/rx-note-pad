@@ -6,6 +6,7 @@ import {
   TextField,
   Box,
   Alert,
+  InputAdornment,
 } from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
 import CloseIcon from "@mui/icons-material/Close";
@@ -146,11 +147,18 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
             )}
             <Box className="card-container">
               <Box className="title-container">
-                <TitleIcon className="title-icon" />
                 <TextField
+                  className="title-field"
                   placeholder="Title"
-                  variant="standard"
+                  variant="outlined"
                   defaultValue={note.title}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <TitleIcon className="title-icon" />
+                      </InputAdornment>
+                    ),
+                  }}
                   inputProps={{ style: { fontSize: 30 } }}
                   InputLabelProps={{ style: { fontSize: 30 } }}
                   onChange={(e) =>

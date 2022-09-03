@@ -173,7 +173,10 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <h2 className="no-margin italic">[Empty]</h2>
               )}
               {note.content ? (
-                <p className="no-margin">{note.content}</p>
+                <p
+                  className="no-margin"
+                  dangerouslySetInnerHTML={{ __html: note.content }}
+                ></p>
               ) : (
                 <p className="no-margin italic">[empty...]</p>
               )}

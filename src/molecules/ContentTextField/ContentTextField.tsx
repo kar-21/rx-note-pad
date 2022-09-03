@@ -1,9 +1,18 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Box, Divider, Grid, IconButton, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { AnyAction } from "redux";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { NotesType } from "../../store/Models/notes.interface";
 import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
@@ -28,6 +37,7 @@ const ContentTextField = ({
 
   const [selectionStart, setSelectionStart] = useState(0);
   const [selectionEnd, setSelectionEnd] = useState(0);
+  const [isEditView, setIsEditView] = useState(false);
 
   const updateContentOnChange = useCallback(
     (value: string, noteObject: NotesType) => {
@@ -73,41 +83,54 @@ const ContentTextField = ({
         selectionStart,
         selectionEnd
       );
-      console.log(
-        ">>>>",
-        `${beforeString}<b>${selectedString}</b>${afterString}`
-      );
       handleOnContentValueChange(
         `${beforeString}<b>${selectedString}</b>${afterString}`
       );
     }
   };
 
+  const toggleEdit = () => {
+    setIsEditView((prev) => !prev);
+  };
+
   return (
-    <>
+    <Box className="content-container">
       <Divider />
-      <Box>
-        Style{" "}
-        <IconButton onClick={handleBoldChange}>
-          <FormatBoldIcon />
-        </IconButton>
-      </Box>
-      <Divider />
-      <Grid container className="content-field-container">
-        <Grid item className="content-field-text">
-          Text:
-          <TextField
-            placeholder="Content"
-            variant="outlined"
-            multiline
-            value={note.content}
-            minRows={4}
-            onChange={(e) => handleOnContentValueChange(e.target.value)}
-            onSelect={handleOnSelect}
-          />
-        </Grid>
-        <Grid item className="content-field-visual">
-          Visual:
+      {isEditView ? (
+        <>
+          <Box>
+            <b>Style </b>
+            <IconButton onClick={handleBoldChange}>
+              <FormatBoldIcon />
+            </IconButton>
+          </Box>
+          <Divider />
+          <Grid container className="content-field-container">
+            <Grid item className="content-field-text">
+              <b>Text:</b>
+              <TextField
+                placeholder="Content"
+                variant="outlined"
+                multiline
+                value={note.content}
+                minRows={4}
+                onChange={(e) => handleOnContentValueChange(e.target.value)}
+                onSelect={handleOnSelect}
+              />
+            </Grid>
+            <Grid item className="content-field-visual">
+              <b>Visual:</b>
+              <div
+                id="editor"
+                dangerouslySetInnerHTML={{
+                  __html: note.content,
+                }}
+              ></div>
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <Grid item className="content-field">
           <div
             id="editor"
             dangerouslySetInnerHTML={{
@@ -115,8 +138,18 @@ const ContentTextField = ({
             }}
           ></div>
         </Grid>
-      </Grid>
-    </>
+      )}
+      <Button
+        variant="outlined"
+        onClick={toggleEdit}
+        color="inherit"
+        size="small"
+        className="content-button"
+        startIcon={isEditView ? <VisibilityIcon /> : <EditIcon />}
+      >
+        {isEditView ? "Visual" : "Edit"}
+      </Button>
+    </Box>
   );
 };
 

@@ -79,7 +79,11 @@ const ContentTextField = ({
     setSelectionEnd(event.target.selectionEnd);
   };
 
-  const handleBoldChange = () => {
+  const handleFontChange = (fontType: string) => {
+    let fontIdentifiers = ["", ""];
+    if (fontType === "bold") fontIdentifiers = ["<b>", "</b>"];
+    if (fontType === "italic") fontIdentifiers = ["<i>", "</i>"];
+    if (fontType === "underlined") fontIdentifiers = ["<u>", "</u>"];
     if (selectionStart !== selectionEnd) {
       const beforeString = note.content.substring(0, selectionStart);
       const afterString = note.content.substring(selectionEnd);
@@ -88,7 +92,7 @@ const ContentTextField = ({
         selectionEnd
       );
       handleOnContentValueChange(
-        `${beforeString}<b>${selectedString}</b>${afterString}`
+        `${beforeString}${fontIdentifiers[0]}${selectedString}${fontIdentifiers[1]}${afterString}`
       );
     }
   };
@@ -97,7 +101,9 @@ const ContentTextField = ({
     event: React.MouseEvent<HTMLElement>,
     newFormats: string[]
   ) => {
-    setFormats(newFormats);
+    if (newFormats.includes("bold")) handleFontChange("bold");
+    if (newFormats.includes("italic")) handleFontChange("italic");
+    if (newFormats.includes("underlined")) handleFontChange("underlined");
   };
 
   const toggleEdit = () => {

@@ -150,7 +150,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <TextField
                   className="title-field"
                   placeholder="Title"
-                  variant="outlined"
+                  variant="standard"
                   defaultValue={note.title}
                   InputProps={{
                     startAdornment: (

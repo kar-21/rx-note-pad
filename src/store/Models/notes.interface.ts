@@ -3,18 +3,15 @@ export interface NotesType {
   title: string;
   content: string;
   color: string;
+  isSaved?: boolean;
 }
 
 export interface NotesReducerType {
   [key: string]: NotesType;
 }
 
-export interface NotesResponseType {
-  userId: String;
-  noteId: String;
-  title: String;
-  content: String;
-  color: Color;
+export interface NotesResponseType extends NotesType {
+  userId: string;
 }
 
 export enum Color {

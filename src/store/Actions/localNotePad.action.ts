@@ -16,9 +16,9 @@ export const getAllLocalNotes =
 export const createNewLocalNote =
   (noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
-    const newNote = generateInitialNote(noteId);
+    const newNote = generateInitialNote(noteId, false);
     sessionStore.setLocalNote(newNote);
-    dispatch(createNote(noteId));
+    dispatch(createNote({ id: noteId, isSaved: false }));
   };
 
 export const saveLocalNote =

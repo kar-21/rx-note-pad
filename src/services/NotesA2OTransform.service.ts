@@ -2,7 +2,8 @@ import { NotesReducerType } from "./../store/Models/notes.interface";
 import { NotesResponseType } from "../store/Models/notes.interface";
 
 export const NotesA2OTransformService = (
-  notesArray: NotesResponseType[]
+  notesArray: NotesResponseType[],
+  isSaved?: boolean
 ): NotesReducerType => {
   let notesObject = {};
   notesArray.forEach((note: NotesResponseType) => {
@@ -10,10 +11,11 @@ export const NotesA2OTransformService = (
       notesObject = {
         ...notesObject,
         [note.noteId]: {
-          id: note.noteId,
+          noteId: note.noteId,
           title: note.title,
           content: note.content,
           color: note.color,
+          isSaved,
         },
       };
   });

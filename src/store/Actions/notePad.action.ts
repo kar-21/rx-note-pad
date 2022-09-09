@@ -18,27 +18,34 @@ import {
 export const getUserNotes =
   (userId: string) =>
   async (dispatch: Dispatch<AnyAction>): Promise<void> => {
-    const notesResponse = await getAPI(
-      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
-    );
-    if (notesResponse.status === 200) {
-      dispatch(
-        getUserNotesSuccess(NotesA2OTransformService(notesResponse.data))
+    try {
+      const notesResponse = await getAPI(
+        `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
       );
+      if (notesResponse.status === 200) {
+        dispatch(
+          getUserNotesSuccess(
+            NotesA2OTransformService(notesResponse.data, true)
+          )
+        );
+      }
+    } catch (error) {
+      console.log(">>>>>", JSON.stringify(error));
+    } finally {
     }
   };
 
 export const createNewNote =
   (userId: string, noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
-    const newNote = generateInitialNote(noteId);
+    const newNote = generateInitialNote(noteId, true );
     console.log(">>>", newNote);
     const notesResponse = await postAPI(
       `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
       newNote
     );
     if (notesResponse.status === 200) {
-      dispatch(createNote(noteId));
+      dispatch(createNote({id: noteId, isSaved: true}));
     }
   };
 

@@ -12,7 +12,7 @@ const SavedNotes = () => {
       <h1>My Notes</h1>
       <Box className="saved-notes-card-container">
         {Object.values(notes).map((note) => (
-          <NoteCard key={note.id} noteFromRedux={note} />
+          <NoteCard key={note.noteId} noteFromRedux={note} />
         ))}
         <NewNoteCard />
       </Box>

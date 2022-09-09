@@ -1,5 +1,5 @@
 export interface NotesType {
-  id: string;
+  noteId: string;
   title: string;
   content: string;
   color: string;
@@ -12,6 +12,11 @@ export interface NotesReducerType {
 
 export interface NotesResponseType extends NotesType {
   userId: string;
+}
+
+export interface CreateNotePadType {
+  id: string;
+  isSaved: boolean;
 }
 
 export enum Color {

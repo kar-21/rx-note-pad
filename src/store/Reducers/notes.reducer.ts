@@ -19,12 +19,15 @@ export const notesReducer = (
     case getType(notesAction.createNote):
       return {
         ...state,
-        [action.payload]: generateInitialNote(action.payload),
+        [action.payload.id]: generateInitialNote(
+          action.payload.id,
+          action.payload.isSaved
+        ),
       };
     case getType(notesAction.updateNote):
       return {
         ...state,
-        [action.payload.id]: action.payload,
+        [action.payload.noteId]: action.payload,
       };
     default:
       return state;

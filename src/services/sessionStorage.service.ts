@@ -6,7 +6,7 @@ const sessionStore = ((sessionStorage: {
   removeItem: (arg0: string) => void;
 }) => {
   const setNoteInSession = (note: NotesType) => {
-    sessionStorage.setItem(`note:${note.id}`, JSON.stringify(note));
+    sessionStorage.setItem(`note:${note.noteId}`, JSON.stringify(note));
   };
 
   const getNoteInSession = (noteId: string) => {

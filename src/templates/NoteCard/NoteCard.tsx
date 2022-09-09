@@ -82,8 +82,8 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   };
 
   const handleDeleteNote = () => {
-    if (userId) dispatch(deleteNote(userId, note.id) as unknown as AnyAction);
-    else dispatch(deleteLocalNote(note.id) as unknown as AnyAction);
+    if (userId) dispatch(deleteNote(userId, note.noteId) as unknown as AnyAction);
+    else dispatch(deleteLocalNote(note.noteId) as unknown as AnyAction);
   };
 
   const debounceEventHandlerForTitle = useMemo(
@@ -102,10 +102,10 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     <Card
       className="note-card"
       style={{ backgroundColor: note.color }}
-      sx={{ minWidth: selectedNoteId === note.id ? 300 : 5 }}
+      sx={{ minWidth: selectedNoteId === note.noteId ? 300 : 5 }}
     >
       <CardContent>
-        {selectedNoteId === note.id ? (
+        {selectedNoteId === note.noteId ? (
           <>
             <Box className="card-header">
               <Box className="card-header-left">
@@ -193,7 +193,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
               <IconButton
                 className="expand-icon"
                 onClick={() => {
-                  dispatch(setSelectedNoteId(note.id));
+                  dispatch(setSelectedNoteId(note.noteId));
                 }}
               >
                 <OpenInFullIcon />

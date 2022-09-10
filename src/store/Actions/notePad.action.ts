@@ -1,3 +1,4 @@
+import { updateNotesFromLocal } from "./../ActionCreators/notes.actionCreators";
 import { NotesType } from "./../Models/notes.interface";
 import { generateInitialNote } from "./../../services/GenerateInitialNote.service";
 import { AnyAction } from "redux";
@@ -14,6 +15,7 @@ import {
   createNote,
   getUserNotesSuccess,
 } from "../ActionCreators/notes.actionCreators";
+import sessionStore from "../../services/sessionStorage.service";
 
 export const getUserNotes =
   (userId: string) =>
@@ -32,20 +34,21 @@ export const getUserNotes =
     } catch (error) {
       console.log(">>>>>", JSON.stringify(error));
     } finally {
+      dispatch(updateNotesFromLocal(sessionStore.getAllLocalNote()));
     }
   };
 
 export const createNewNote =
   (userId: string, noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
-    const newNote = generateInitialNote(noteId, true );
+    const newNote = generateInitialNote(noteId, true);
     console.log(">>>", newNote);
     const notesResponse = await postAPI(
       `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
       newNote
     );
     if (notesResponse.status === 200) {
-      dispatch(createNote({id: noteId, isSaved: true}));
+      dispatch(createNote({ id: noteId, isSaved: true }));
     }
   };
 

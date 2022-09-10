@@ -16,6 +16,11 @@ export const notesReducer = (
       return {
         ...action.payload,
       };
+    case getType(notesAction.updateNotesFromLocal):
+      return {
+        ...state,
+        ...action.payload,
+      };
     case getType(notesAction.createNote):
       return {
         ...state,

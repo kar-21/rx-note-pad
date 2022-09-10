@@ -7,6 +7,8 @@ import {
   Box,
   Alert,
   InputAdornment,
+  Snackbar,
+  Button,
 } from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,6 +30,7 @@ import {
 } from "../../store/Actions/localNotePad.action";
 import ColorPalettePicker from "../../molecules/ColorPalettePicker/ColorPalettePicker";
 import ContentTextField from "../../molecules/ContentTextField/ContentTextField";
+import { useNavigate } from "react-router-dom";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -35,6 +38,7 @@ export interface NoteCardProp {
 
 const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [note, setNote] = useState<NotesType>(noteFromRedux);
   const [isAlertBoxOpen, setIsAlertBoxOpen] = useState(false);
@@ -82,7 +86,8 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   };
 
   const handleDeleteNote = () => {
-    if (userId) dispatch(deleteNote(userId, note.noteId) as unknown as AnyAction);
+    if (userId)
+      dispatch(deleteNote(userId, note.noteId) as unknown as AnyAction);
     else dispatch(deleteLocalNote(note.noteId) as unknown as AnyAction);
   };
 
@@ -93,9 +98,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
 
   const handleShowAlertBox = () => {
     setIsAlertBoxOpen(true);
-    setTimeout(() => {
-      setIsAlertBoxOpen(false);
-    }, 10000);
   };
 
   return (
@@ -126,25 +128,38 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <CloseIcon />
               </IconButton>
             </Box>
-            {!userId && isAlertBoxOpen && (
+            <Snackbar
+              open={!userId && isAlertBoxOpen}
+              autoHideDuration={10000}
+              onClose={() => {
+                setIsAlertBoxOpen(false);
+              }}
+            >
               <Alert
                 severity="warning"
                 action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setIsAlertBoxOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
+                  <>
+                    <Button
+                      color="primary"
+                      size="small"
+                      onClick={() => navigate("/login")}
+                    >
+                      Login / SignUp
+                    </Button>
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      sx={{ p: 0.5 }}
+                      onClick={() => setIsAlertBoxOpen(false)}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </>
                 }
               >
                 This Note is saved locally. Login / SignUp to save your work.
               </Alert>
-            )}
+            </Snackbar>
             <Box className="card-container">
               <Box className="title-container">
                 <TextField

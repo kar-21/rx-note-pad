@@ -1,4 +1,4 @@
-import { commonStateType } from "../Models/commonState.interface";
+import { CommonStateType } from "../Models/commonState.interface";
 import { UserDetails } from "./../Models/userDetails.interface";
 import { combineReducers } from "redux";
 import { userDetailsReducer } from "./userDetails.reducer";
@@ -9,7 +9,7 @@ import { commonStateReducer } from "./commonState.reducer";
 export interface RootState {
   userDetailsReducer: UserDetails;
   notesReducer: NotesReducerType;
-  commonStateReducer: commonStateType;
+  commonStateReducer: CommonStateType;
 }
 
 const reducers = combineReducers({

@@ -17,6 +17,8 @@ import {
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
 import welcomeNote from "../../assets/WelcomeNote.json";
+import { CircularProgress, Modal, Paper } from "@mui/material";
+import { Box } from "@mui/system";
 
 const GetUserInfo = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,10 @@ const GetUserInfo = () => {
 
   const { jwtToken } = useSelector(
     (state: RootState) => state.userDetailsReducer
+  );
+
+  const { spinnerState } = useSelector(
+    (state: RootState) => state.commonStateReducer
   );
 
   useEffect(() => {
@@ -39,6 +45,20 @@ const GetUserInfo = () => {
     }
   }, [dispatch, cookie, jwtToken]);
 
+  if (spinnerState.showSpinner) {
+    return (
+      <Modal
+        open={spinnerState.showSpinner}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Paper className="spinner-paper">
+          <CircularProgress color="success" />
+          <span>{spinnerState.message}</span>
+        </Paper>
+      </Modal>
+    );
+  }
   return <></>;
 };
 

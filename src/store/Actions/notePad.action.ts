@@ -1,3 +1,7 @@
+import {
+  resetSpinner,
+  setSpinner,
+} from "./../ActionCreators/commonState.actionCreators";
 import { updateNotesFromLocal } from "./../ActionCreators/notes.actionCreators";
 import { NotesType } from "./../Models/notes.interface";
 import { generateInitialNote } from "./../../services/GenerateInitialNote.service";
@@ -21,6 +25,7 @@ export const getUserNotes =
   (userId: string) =>
   async (dispatch: Dispatch<AnyAction>): Promise<void> => {
     try {
+      dispatch(setSpinner("Fetching Notes..."));
       const notesResponse = await getAPI(
         `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
       );
@@ -35,6 +40,7 @@ export const getUserNotes =
       console.log(">>>>>", JSON.stringify(error));
     } finally {
       dispatch(updateNotesFromLocal(sessionStore.getAllLocalNote()));
+      dispatch(resetSpinner());
     }
   };
 

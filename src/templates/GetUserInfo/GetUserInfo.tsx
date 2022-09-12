@@ -3,6 +3,16 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "redux";
 import jwt_decode from "jwt-decode";
+import {
+  CircularProgress,
+  Modal,
+  Paper,
+  Snackbar,
+  Alert,
+  Button,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {
   setJwtToken,
@@ -17,7 +27,7 @@ import {
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
 import welcomeNote from "../../assets/WelcomeNote.json";
-import { CircularProgress, Modal, Paper } from "@mui/material";
+import { resetAlert } from "../../store/ActionCreators/commonState.actionCreators";
 
 const GetUserInfo = () => {
   const dispatch = useDispatch();
@@ -27,7 +37,7 @@ const GetUserInfo = () => {
     (state: RootState) => state.userDetailsReducer
   );
 
-  const { spinnerState } = useSelector(
+  const { spinnerState, alertState } = useSelector(
     (state: RootState) => state.commonStateReducer
   );
 
@@ -44,21 +54,45 @@ const GetUserInfo = () => {
     }
   }, [dispatch, cookie, jwtToken]);
 
-  if (spinnerState.showSpinner) {
-    return (
-      <Modal
-        open={spinnerState.showSpinner}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Paper className="spinner-paper">
-          <CircularProgress color="success" />
-          <span>{spinnerState.message}</span>
-        </Paper>
-      </Modal>
-    );
-  }
-  return <></>;
+  return (
+    <>
+      {spinnerState.showSpinner && (
+        <Modal
+          open={spinnerState.showSpinner}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Paper className="spinner-paper">
+            <CircularProgress color="success" />
+            <span>{spinnerState.message}</span>
+          </Paper>
+        </Modal>
+      )}
+      {alertState.showAlert && (
+        <Snackbar
+          open={alertState.showAlert}
+          autoHideDuration={6000}
+          onClose={() => dispatch(resetAlert())}
+        >
+          <Alert
+            severity={alertState.level}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                sx={{ p: 0.5 }}
+                onClick={() => dispatch(resetAlert())}
+              >
+                <CloseIcon />
+              </IconButton>
+            }
+          >
+            {alertState.message}
+          </Alert>
+        </Snackbar>
+      )}
+    </>
+  );
 };
 
 export default GetUserInfo;

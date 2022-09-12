@@ -1,14 +1,12 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { AnyAction } from "redux";
 import {
   Card,
   CardContent,
   IconButton,
   TextField,
   Box,
-  Alert,
   InputAdornment,
-  Snackbar,
-  Button,
 } from "@mui/material";
 import TitleIcon from "@mui/icons-material/Title";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,17 +18,19 @@ import * as _ from "lodash";
 
 import { updateNote } from "../../store/ActionCreators/notes.actionCreators";
 import { NotesType } from "../../store/Models/notes.interface";
-import { setSelectedNoteId } from "../../store/ActionCreators/commonState.actionCreators";
+import {
+  setAlert,
+  setSelectedNoteId,
+} from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
 import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
-import { AnyAction } from "redux";
 import {
   deleteLocalNote,
   saveLocalNote,
 } from "../../store/Actions/localNotePad.action";
 import ColorPalettePicker from "../../molecules/ColorPalettePicker/ColorPalettePicker";
 import ContentTextField from "../../molecules/ContentTextField/ContentTextField";
-import { useNavigate } from "react-router-dom";
+import { AlertLevel } from "../../store/Models/commonState.interface";
 
 export interface NoteCardProp {
   noteFromRedux: NotesType;
@@ -38,10 +38,8 @@ export interface NoteCardProp {
 
 const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [note, setNote] = useState<NotesType>(noteFromRedux);
-  const [isAlertBoxOpen, setIsAlertBoxOpen] = useState(false);
 
   const { selectedNoteId } = useSelector(
     (state: RootState) => state.commonStateReducer
@@ -97,7 +95,13 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   );
 
   const handleShowAlertBox = () => {
-    setIsAlertBoxOpen(true);
+    dispatch(
+      setAlert({
+        message:
+          "This Note is saved locally. Login / SignUp to save your work.",
+        level: AlertLevel.warning,
+      })
+    );
   };
 
   return (
@@ -118,7 +122,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <IconButton onClick={handleDeleteNote}>
                   <DeleteForeverIcon />
                 </IconButton>
-                {!userId && (
+                {!note.isSaved && (
                   <IconButton onClick={handleShowAlertBox}>
                     <WarningAmberIcon />
                   </IconButton>
@@ -128,38 +132,6 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                 <CloseIcon />
               </IconButton>
             </Box>
-            <Snackbar
-              open={!userId && isAlertBoxOpen}
-              autoHideDuration={10000}
-              onClose={() => {
-                setIsAlertBoxOpen(false);
-              }}
-            >
-              <Alert
-                severity="warning"
-                action={
-                  <>
-                    <Button
-                      color="primary"
-                      size="small"
-                      onClick={() => navigate("/login")}
-                    >
-                      Login / SignUp
-                    </Button>
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      sx={{ p: 0.5 }}
-                      onClick={() => setIsAlertBoxOpen(false)}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  </>
-                }
-              >
-                This Note is saved locally. Login / SignUp to save your work.
-              </Alert>
-            </Snackbar>
             <Box className="card-container">
               <Box className="title-container">
                 <TextField

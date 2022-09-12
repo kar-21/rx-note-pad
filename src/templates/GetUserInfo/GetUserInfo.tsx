@@ -71,7 +71,7 @@ const GetUserInfo = () => {
       {alertState.showAlert && (
         <Snackbar
           open={alertState.showAlert}
-          autoHideDuration={6000}
+          autoHideDuration={100000}
           onClose={() => dispatch(resetAlert())}
         >
           <Alert

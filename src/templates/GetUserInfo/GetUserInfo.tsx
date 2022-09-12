@@ -18,7 +18,6 @@ import {
 } from "../../store/Actions/localNotePad.action";
 import welcomeNote from "../../assets/WelcomeNote.json";
 import { CircularProgress, Modal, Paper } from "@mui/material";
-import { Box } from "@mui/system";
 
 const GetUserInfo = () => {
   const dispatch = useDispatch();

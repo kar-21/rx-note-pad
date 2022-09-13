@@ -13,6 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import SaveIcon from "@mui/icons-material/Save";
 import { useDispatch, useSelector } from "react-redux";
 import * as _ from "lodash";
 
@@ -23,7 +24,11 @@ import {
   setSelectedNoteId,
 } from "../../store/ActionCreators/commonState.actionCreators";
 import { RootState } from "../../store/Reducers";
-import { deleteNote, saveNote } from "../../store/Actions/notePad.action";
+import {
+  deleteNote,
+  saveLocalNoteToRemote,
+  saveNote,
+} from "../../store/Actions/notePad.action";
 import {
   deleteLocalNote,
   saveLocalNote,
@@ -104,6 +109,10 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
     );
   };
 
+  const handleSaveLocalNote = () => {
+    dispatch(saveLocalNoteToRemote(userId, note) as unknown as AnyAction);
+  };
+
   return (
     <Card
       className="note-card"
@@ -123,9 +132,16 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
                   <DeleteForeverIcon />
                 </IconButton>
                 {!note.isSaved && (
-                  <IconButton onClick={handleShowAlertBox}>
-                    <WarningAmberIcon />
-                  </IconButton>
+                  <>
+                    <IconButton onClick={handleShowAlertBox}>
+                      <WarningAmberIcon />
+                    </IconButton>
+                    {userId && (
+                      <IconButton onClick={handleSaveLocalNote}>
+                        <SaveIcon />
+                      </IconButton>
+                    )}
+                  </>
                 )}
               </Box>
               <IconButton onClick={() => dispatch(setSelectedNoteId(""))}>

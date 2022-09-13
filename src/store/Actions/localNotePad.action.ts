@@ -4,6 +4,7 @@ import sessionStore from "../../services/sessionStorage.service";
 import {
   createNote,
   getUserNotesSuccess,
+  deleteLocalNoteSuccess,
 } from "../ActionCreators/notes.actionCreators";
 import { NotesType } from "../Models/notes.interface";
 
@@ -31,5 +32,5 @@ export const deleteLocalNote =
   (noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     sessionStore.removeLocalNote(noteId);
-    dispatch(getUserNotesSuccess(sessionStore.getAllLocalNote()));
+    dispatch(deleteLocalNoteSuccess(noteId));
   };

@@ -34,6 +34,10 @@ export const notesReducer = (
         ...state,
         [action.payload.noteId]: action.payload,
       };
+    case getType(notesAction.deleteLocalNoteSuccess):
+      const currentState = state;
+      delete currentState[action.payload];
+      return currentState;
     default:
       return state;
   }

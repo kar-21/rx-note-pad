@@ -14,3 +14,6 @@ export const getUserNotesSuccess = createAction(
 export const updateNotesFromLocal = createAction(
   "UPDATE_NOTES_FROM_LOCAL"
 )<NotesReducerType>();
+export const deleteLocalNoteSuccess = createAction(
+  "DELETE_LOCAL_NOTE_SUCCESS"
+)<string>();

@@ -1,13 +1,15 @@
+import { AnyAction, Dispatch } from "redux";
+
 import {
   resetSpinner,
   setSpinner,
 } from "./../ActionCreators/commonState.actionCreators";
-import { updateNotesFromLocal } from "./../ActionCreators/notes.actionCreators";
+import {
+  updateNote,
+  updateNotesFromLocal,
+} from "./../ActionCreators/notes.actionCreators";
 import { NotesType } from "./../Models/notes.interface";
 import { generateInitialNote } from "./../../services/GenerateInitialNote.service";
-import { AnyAction } from "redux";
-import { Dispatch } from "redux";
-
 import {
   deleteAPI,
   getAPI,
@@ -58,6 +60,19 @@ export const createNewNote =
     }
   };
 
+export const saveLocalNoteToRemote =
+  (userId: string, note: NotesType) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    const notesResponse = await postAPI(
+      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
+      note
+    );
+    if (notesResponse.status === 200) {
+      dispatch(updateNote({ ...note, isSaved: true }));
+      sessionStore.removeLocalNote(note.noteId);
+    }
+  };
+
 export const saveNote =
   (userId: string, note: NotesType) =>
   async (dispatch: Dispatch): Promise<void> => {
@@ -73,18 +88,24 @@ export const saveNote =
 export const deleteNote =
   (userId: string, noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
-    const noteDeleteResponse = await deleteAPI(
-      `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
-      { noteId }
-    );
-    if (noteDeleteResponse.status === 200) {
-      const notesGetResponse = await getAPI(
-        `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
+    try {
+      const noteDeleteResponse = await deleteAPI(
+        `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
+        { noteId }
       );
-      if (notesGetResponse.status === 200) {
-        dispatch(
-          getUserNotesSuccess(NotesA2OTransformService(notesGetResponse.data))
+      if (noteDeleteResponse.status === 200) {
+        const notesGetResponse = await getAPI(
+          `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`
         );
+        if (notesGetResponse.status === 200) {
+          dispatch(
+            getUserNotesSuccess(NotesA2OTransformService(notesGetResponse.data))
+          );
+        }
       }
+    } catch (e) {
+      console.log(">>>>::::>>>>", e);
+    } finally {
+      dispatch(updateNotesFromLocal(sessionStore.getAllLocalNote()));
     }
   };

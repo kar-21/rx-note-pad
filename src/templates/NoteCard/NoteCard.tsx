@@ -89,7 +89,7 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   };
 
   const handleDeleteNote = () => {
-    if (userId)
+    if (note.isSaved)
       dispatch(deleteNote(userId, note.noteId) as unknown as AnyAction);
     else dispatch(deleteLocalNote(note.noteId) as unknown as AnyAction);
   };

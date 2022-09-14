@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { AnyAction } from "redux";
 import {
   Card,
@@ -53,6 +53,10 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   const { userId } = useSelector(
     (state: RootState) => state.userDetailsReducer
   );
+
+  useEffect(() => {
+    setNote(noteFromRedux);
+  }, [noteFromRedux]);
 
   const updateColorOnChange = (color: string) => {
     dispatch(updateNote({ ...note, color }));

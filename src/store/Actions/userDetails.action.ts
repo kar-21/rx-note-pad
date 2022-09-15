@@ -1,8 +1,6 @@
-import { AlertLevel } from "./../Models/commonState.interface";
 import {
   setSpinner,
   resetSpinner,
-  setAlert,
 } from "./../ActionCreators/commonState.actionCreators";
 import { AnyAction, Dispatch } from "redux";
 import { getUserDetailsSuccess } from "./../ActionCreators/userDetails.actionCreator";

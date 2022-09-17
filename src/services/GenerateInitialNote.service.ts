@@ -8,5 +8,7 @@ export const generateInitialNote = (
   title: "",
   content: "",
   color: Object.values(Color)[Math.floor(Math.random() * 5)],
+  dateOfCreation: new Date(Date.now()),
+  dateOfModification: new Date(Date.now()),
   isSaved,
 });

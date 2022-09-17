@@ -48,7 +48,14 @@ const GetUserInfo = () => {
       dispatch(getUserDetails(decode?.userId) as unknown as AnyAction);
       dispatch(getUserNotes(decode?.userId) as unknown as AnyAction);
     } else {
-      dispatch(saveLocalNote(welcomeNote) as unknown as AnyAction);
+      dispatch(
+        saveLocalNote({
+          ...welcomeNote,
+          isSaved: false,
+          dateOfCreation: new Date(Date.now()),
+          dateOfModification: new Date(Date.now()),
+        }) as unknown as AnyAction
+      );
       dispatch(getAllLocalNotes() as unknown as AnyAction);
     }
   }, [dispatch, cookie, jwtToken]);

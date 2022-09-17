@@ -14,7 +14,10 @@ import {
 import { JwtType } from "../../store/Models/userDetails.interface";
 import { getUserDetails } from "../../store/Actions/userDetails.action";
 import { getUserNotes } from "../../store/Actions/notePad.action";
-import { getAllLocalNotes, saveLocalNote } from "../../store/Actions/localNotePad.action";
+import {
+  getAllLocalNotes,
+  saveLocalNote,
+} from "../../store/Actions/localNotePad.action";
 import welcomeNote from "../../assets/WelcomeNote.json";
 
 const Token = () => {
@@ -36,7 +39,14 @@ const Token = () => {
       setCookie("token", token, { path: "/" });
       navigate("/my-notes");
     } else {
-      dispatch(saveLocalNote(welcomeNote) as unknown as AnyAction);
+      dispatch(
+        saveLocalNote({
+          ...welcomeNote,
+          isSaved: false,
+          dateOfCreation: new Date(Date.now()),
+          dateOfModification: new Date(Date.now()),
+        }) as unknown as AnyAction
+      );
       dispatch(getAllLocalNotes() as unknown as AnyAction);
     }
   }, [dispatch, navigate, setCookie, token]);

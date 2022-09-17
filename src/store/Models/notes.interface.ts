@@ -3,6 +3,8 @@ export interface NotesType {
   title: string;
   content: string;
   color: string;
+  dateOfCreation: Date,
+  dateOfModification: Date,
   isSaved?: boolean;
 }
 

@@ -15,6 +15,8 @@ export const NotesA2OTransformService = (
           title: note.title,
           content: note.content,
           color: note.color,
+          dateOfCreation: note.dateOfCreation,
+          dateOfModification: note.dateOfModification,
           isSaved,
         },
       };

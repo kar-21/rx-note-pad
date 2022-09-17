@@ -29,21 +29,15 @@ const ContentTextField = ({
 
   const updateContentOnChange = useCallback(
     (value: string, noteObject: NotesType) => {
-      dispatch(updateNote({ ...noteObject, content: value }));
+      const updatedNote = {
+        ...noteObject,
+        content: value,
+        dateOfModification: new Date(),
+      };
+      dispatch(updateNote(updatedNote));
       if (userId)
-        dispatch(
-          saveNote(userId, {
-            ...noteObject,
-            content: value,
-          }) as unknown as AnyAction
-        );
-      else
-        dispatch(
-          saveLocalNote({
-            ...noteObject,
-            content: value,
-          }) as unknown as AnyAction
-        );
+        dispatch(saveNote(userId, updatedNote) as unknown as AnyAction);
+      else dispatch(saveLocalNote(updatedNote) as unknown as AnyAction);
     },
     [dispatch, userId]
   );

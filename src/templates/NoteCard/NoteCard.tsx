@@ -59,31 +59,29 @@ const NoteCard = ({ noteFromRedux }: NoteCardProp) => {
   }, [noteFromRedux]);
 
   const updateColorOnChange = (color: string) => {
-    dispatch(updateNote({ ...note, color }));
-    setNote((prev: NotesType) => ({ ...prev, color }));
-    if (userId)
-      dispatch(saveNote(userId, { ...note, color }) as unknown as AnyAction);
-    else dispatch(saveLocalNote({ ...note, color }) as unknown as AnyAction);
+    const updatedNote = {
+      ...note,
+      color,
+      dateOfModification: new Date(),
+    };
+    dispatch(updateNote(updatedNote));
+    setNote(updatedNote);
+    if (userId) dispatch(saveNote(userId, updatedNote) as unknown as AnyAction);
+    else dispatch(saveLocalNote(updatedNote) as unknown as AnyAction);
   };
 
   const updateTitleOnChange = useCallback(
     (value: string, noteObject: NotesType) => {
-      dispatch(updateNote({ ...noteObject, title: value }));
-      setNote({ ...noteObject, title: value });
+      const updatedNote = {
+        ...noteObject,
+        title: value,
+        dateOfModification: new Date(),
+      };
+      dispatch(updateNote(updatedNote));
+      setNote(updatedNote);
       if (userId)
-        dispatch(
-          saveNote(userId, {
-            ...noteObject,
-            title: value,
-          }) as unknown as AnyAction
-        );
-      else
-        dispatch(
-          saveLocalNote({
-            ...noteObject,
-            title: value,
-          }) as unknown as AnyAction
-        );
+        dispatch(saveNote(userId, updatedNote) as unknown as AnyAction);
+      else dispatch(saveLocalNote(updatedNote) as unknown as AnyAction);
     },
     [dispatch, userId]
   );

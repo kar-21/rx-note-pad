@@ -16,7 +16,7 @@ const SavedNotes = () => {
     setSelectedSort(selectedSort);
   };
 
-  const sortBasedOnSelectedSort = (a: NotesType, b: NotesType) => {
+  const sortModifiedDescending = (a: NotesType, b: NotesType) => {
     if (
       new Date(a.dateOfModification).getTime() ===
       new Date(b.dateOfModification).getTime()
@@ -29,10 +29,67 @@ const SavedNotes = () => {
       return 1;
     return -1;
   };
+  const sortModifiedAscending = (a: NotesType, b: NotesType) => {
+    if (
+      new Date(a.dateOfModification).getTime() ===
+      new Date(b.dateOfModification).getTime()
+    )
+      return 0;
+    else if (
+      new Date(a.dateOfModification).getTime() >
+      new Date(b.dateOfModification).getTime()
+    )
+      return 1;
+    return -1;
+  };
+  const sortCreatedDescending = (a: NotesType, b: NotesType) => {
+    if (
+      new Date(a.dateOfCreation).getTime() ===
+      new Date(b.dateOfCreation).getTime()
+    )
+      return 0;
+    else if (
+      new Date(a.dateOfCreation).getTime() <
+      new Date(b.dateOfCreation).getTime()
+    )
+      return 1;
+    return -1;
+  };
+  const sortCreatedAscending = (a: NotesType, b: NotesType) => {
+    if (
+      new Date(a.dateOfCreation).getTime() ===
+      new Date(b.dateOfCreation).getTime()
+    )
+      return 0;
+    else if (
+      new Date(a.dateOfCreation).getTime() >
+      new Date(b.dateOfCreation).getTime()
+    )
+      return 1;
+    return -1;
+  };
+
+  const sortBasedOnSelectedSort = useMemo(
+    () => (a: NotesType, b: NotesType) => {
+      switch (selectedSort) {
+        case "Modified-descending":
+          return sortModifiedDescending(a, b);
+        case "Modified-ascending":
+          return sortModifiedAscending(a, b);
+        case "Created-descending":
+          return sortCreatedDescending(a, b);
+        case "Created-ascending":
+          return sortCreatedAscending(a, b);
+        default:
+          return 0;
+      }
+    },
+    [selectedSort]
+  );
 
   const sortedNotes = useMemo(
     () => Object.values(notes).sort(sortBasedOnSelectedSort),
-    [notes]
+    [notes, sortBasedOnSelectedSort]
   );
 
   return (

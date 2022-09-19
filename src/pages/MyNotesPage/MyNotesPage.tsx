@@ -16,43 +16,32 @@ const SavedNotes = () => {
     setSelectedSort(selectedSort);
   };
 
-  const sortModified = (a: NotesType, b: NotesType, isDescending: boolean) => {
+  const sortNotes = (
+    firstNote: NotesType,
+    secondNote: NotesType,
+    sortType: string,
+    isDescending: boolean
+  ) => {
+    const firstNoteDate =
+      sortType === "Modified"
+        ? firstNote.dateOfModification
+        : firstNote.dateOfCreation;
+    const secondNoteDate =
+      sortType === "Modified"
+        ? secondNote.dateOfModification
+        : secondNote.dateOfCreation;
     if (
-      new Date(a.dateOfModification).getTime() ===
-      new Date(b.dateOfModification).getTime()
+      new Date(firstNoteDate).getTime() === new Date(secondNoteDate).getTime()
     )
       return 0;
     else if (
       isDescending &&
-      new Date(a.dateOfModification).getTime() <
-        new Date(b.dateOfModification).getTime()
+      new Date(firstNoteDate).getTime() < new Date(secondNoteDate).getTime()
     )
       return 1;
     else if (
       !isDescending &&
-      new Date(a.dateOfModification).getTime() >
-        new Date(b.dateOfModification).getTime()
-    )
-      return 1;
-    return -1;
-  };
-
-  const sortCreate = (a: NotesType, b: NotesType, isDescending: boolean) => {
-    if (
-      new Date(a.dateOfCreation).getTime() ===
-      new Date(b.dateOfCreation).getTime()
-    )
-      return 0;
-    else if (
-      isDescending &&
-      new Date(a.dateOfCreation).getTime() <
-        new Date(b.dateOfCreation).getTime()
-    )
-      return 1;
-    else if (
-      !isDescending &&
-      new Date(a.dateOfCreation).getTime() >
-        new Date(b.dateOfCreation).getTime()
+      new Date(firstNoteDate).getTime() > new Date(secondNoteDate).getTime()
     )
       return 1;
     return -1;
@@ -62,13 +51,13 @@ const SavedNotes = () => {
     () => (a: NotesType, b: NotesType) => {
       switch (selectedSort) {
         case "Modified-descending":
-          return sortModified(a, b, true);
+          return sortNotes(a, b, 'Modified', true);
         case "Modified-ascending":
-          return sortModified(a, b, false);
+          return sortNotes(a, b, 'Modified', false);
         case "Created-descending":
-          return sortCreate(a, b, true);
+          return sortNotes(a, b, 'Created', true);
         case "Created-ascending":
-          return sortCreate(a, b, false);
+          return sortNotes(a, b, 'Created', false);
         default:
           return 0;
       }

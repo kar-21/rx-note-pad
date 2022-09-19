@@ -16,54 +16,43 @@ const SavedNotes = () => {
     setSelectedSort(selectedSort);
   };
 
-  const sortModifiedDescending = (a: NotesType, b: NotesType) => {
+  const sortModified = (a: NotesType, b: NotesType, isDescending: boolean) => {
     if (
       new Date(a.dateOfModification).getTime() ===
       new Date(b.dateOfModification).getTime()
     )
       return 0;
     else if (
+      isDescending &&
       new Date(a.dateOfModification).getTime() <
-      new Date(b.dateOfModification).getTime()
+        new Date(b.dateOfModification).getTime()
     )
       return 1;
-    return -1;
-  };
-  const sortModifiedAscending = (a: NotesType, b: NotesType) => {
-    if (
-      new Date(a.dateOfModification).getTime() ===
-      new Date(b.dateOfModification).getTime()
-    )
-      return 0;
     else if (
+      !isDescending &&
       new Date(a.dateOfModification).getTime() >
-      new Date(b.dateOfModification).getTime()
+        new Date(b.dateOfModification).getTime()
     )
       return 1;
     return -1;
   };
-  const sortCreatedDescending = (a: NotesType, b: NotesType) => {
+
+  const sortCreate = (a: NotesType, b: NotesType, isDescending: boolean) => {
     if (
       new Date(a.dateOfCreation).getTime() ===
       new Date(b.dateOfCreation).getTime()
     )
       return 0;
     else if (
+      isDescending &&
       new Date(a.dateOfCreation).getTime() <
-      new Date(b.dateOfCreation).getTime()
+        new Date(b.dateOfCreation).getTime()
     )
       return 1;
-    return -1;
-  };
-  const sortCreatedAscending = (a: NotesType, b: NotesType) => {
-    if (
-      new Date(a.dateOfCreation).getTime() ===
-      new Date(b.dateOfCreation).getTime()
-    )
-      return 0;
     else if (
+      !isDescending &&
       new Date(a.dateOfCreation).getTime() >
-      new Date(b.dateOfCreation).getTime()
+        new Date(b.dateOfCreation).getTime()
     )
       return 1;
     return -1;
@@ -73,13 +62,13 @@ const SavedNotes = () => {
     () => (a: NotesType, b: NotesType) => {
       switch (selectedSort) {
         case "Modified-descending":
-          return sortModifiedDescending(a, b);
+          return sortModified(a, b, true);
         case "Modified-ascending":
-          return sortModifiedAscending(a, b);
+          return sortModified(a, b, false);
         case "Created-descending":
-          return sortCreatedDescending(a, b);
+          return sortCreate(a, b, true);
         case "Created-ascending":
-          return sortCreatedAscending(a, b);
+          return sortCreate(a, b, false);
         default:
           return 0;
       }

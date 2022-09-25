@@ -13,7 +13,6 @@ const getAPI = (url: string, body?: any) => {
 };
 
 const postAPI = (url: string, body?: {}) => {
-  console.log(body);
   return axiosInstance.post(url, body, {
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +21,6 @@ const postAPI = (url: string, body?: {}) => {
 };
 
 const patchAPI = (url: string, body?: {}) => {
-  console.log(body);
   return axiosInstance.patch(url, body, {
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +29,6 @@ const patchAPI = (url: string, body?: {}) => {
 };
 
 const deleteAPI = (url: string, body?: {}) => {
-  console.log(body);
   return axiosInstance.delete(url, {
     headers: {
       "Content-Type": "application/json",

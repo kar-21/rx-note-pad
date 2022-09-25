@@ -50,7 +50,6 @@ export const createNewNote =
   (userId: string, noteId: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     const newNote = generateInitialNote(noteId, true);
-    console.log(">>>", newNote);
     const notesResponse = await postAPI(
       `${process.env.REACT_APP_BACKEND_API}/notepad/${userId}`,
       newNote

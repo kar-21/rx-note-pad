@@ -1,8 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## React Note Pad
+# React Note Pad
 
 Note Pad is a cloud-enabled, secure, user profiled, react notes.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
